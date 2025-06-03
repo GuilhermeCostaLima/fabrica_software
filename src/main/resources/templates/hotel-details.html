@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Beira Mar - 123milhas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">123<span>milhas</span></div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/hoteis" class="active">Hotéis</a></li>
+                    <li><a href="/promocoes">Promoções</a></li>
+                    <li><a href="/sobre">Sobre</a></li>
+                    <li><a href="/contato">Contato</a></li>
+                </ul>
+                <div class="auth-links">
+                    <a href="/login" class="btn btn-outline">Login</a>
+                    <a href="/cadastro" class="btn">Cadastre-se</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hotel Details -->
+    <section class="container hotel-details">
+        <div class="hotel-header">
+            <div>
+                <h1>Hotel Beira Mar</h1>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i> Av. Atlântica, 1500 - Copacabana, Rio de Janeiro
+                </div>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <span>(245 avaliações)</span>
+                </div>
+            </div>
+            <div class="share-save">
+                <button class="btn btn-outline"><i class="fas fa-share-alt"></i> Compartilhar</button>
+                <button class="btn btn-outline"><i class="far fa-heart"></i> Salvar</button>
+            </div>
+        </div>
+
+        <!-- Hotel Gallery -->
+        <div class="hotel-gallery">
+            <img src="/images/hotel1.jpg" alt="Hotel Beira Mar - Vista frontal">
+            <img src="/images/hotel1-room.jpg" alt="Hotel Beira Mar - Quarto">
+            <img src="/images/hotel1-pool.jpg" alt="Hotel Beira Mar - Piscina">
+            <img src="/images/hotel1-restaurant.jpg" alt="Hotel Beira Mar - Restaurante">
+            <img src="/images/hotel1-lobby.jpg" alt="Hotel Beira Mar - Lobby">
+            <img src="/images/hotel1-view.jpg" alt="Hotel Beira Mar - Vista">
+        </div>
+
+        <!-- Hotel Info -->
+        <div class="hotel-info">
+            <div class="hotel-description">
+                <h2>Sobre o Hotel</h2>
+                <p>O Hotel Beira Mar oferece acomodações à beira-mar em Copacabana, a apenas 100 metros da famosa praia. Com uma localização privilegiada, o hotel proporciona fácil acesso às principais atrações turísticas do Rio de Janeiro.</p>
+                <p>Os quartos são espaçosos e confortáveis, equipados com ar-condicionado, TV de tela plana, minibar e banheiro privativo. Muitos quartos oferecem vista panorâmica para o mar de Copacabana.</p>
+                <p>O hotel conta com piscina na cobertura, academia, restaurante com culinária internacional e bar. O café da manhã buffet é servido diariamente e inclui uma variedade de frutas tropicais, pães, bolos e pratos quentes.</p>
+                <p>A recepção funciona 24 horas e a equipe multilíngue está sempre disponível para auxiliar com informações turísticas, reservas de passeios e serviços de concierge.</p>
+
+                <div class="hotel-amenities">
+                    <h3>Comodidades</h3>
+                    <ul class="amenities-list">
+                        <li><i class="fas fa-wifi"></i> Wi-Fi grátis</li>
+                        <li><i class="fas fa-swimming-pool"></i> Piscina</li>
+                        <li><i class="fas fa-dumbbell"></i> Academia</li>
+                        <li><i class="fas fa-utensils"></i> Restaurante</li>
+                        <li><i class="fas fa-coffee"></i> Café da manhã</li>
+                        <li><i class="fas fa-concierge-bell"></i> Serviço de quarto</li>
+                        <li><i class="fas fa-parking"></i> Estacionamento</li>
+                        <li><i class="fas fa-wheelchair"></i> Acessibilidade</li>
+                        <li><i class="fas fa-baby"></i> Berço disponível</li>
+                        <li><i class="fas fa-paw"></i> Aceita animais</li>
+                    </ul>
+                </div>
+
+                <div class="hotel-policies">
+                    <h3>Políticas do Hotel</h3>
+                    <div class="policy-item">
+                        <strong>Check-in:</strong> a partir das 14:00
+                    </div>
+                    <div class="policy-item">
+                        <strong>Check-out:</strong> até as 12:00
+                    </div>
+                    <div class="policy-item">
+                        <strong>Cancelamento:</strong> Gratuito até 48 horas antes da data de check-in
+                    </div>
+                    <div class="policy-item">
+                        <strong>Crianças:</strong> Crianças até 6 anos não pagam quando utilizam as camas existentes
+                    </div>
+                </div>
+            </div>
+
+            <div class="hotel-sidebar">
+                <h3>Reserve sua estadia</h3>
+                <div class="price">
+                    R$ 350 <span>/ noite</span>
+                </div>
+                <form class="booking-form">
+                    <div class="form-group">
+                        <label for="check-in-date">Check-in</label>
+                        <input type="date" id="check-in-date" name="check_in">
+                    </div>
+                    <div class="form-group">
+                        <label for="check-out-date">Check-out</label>
+                        <input type="date" id="check-out-date" name="check_out">
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Hóspedes</label>
+                        <select id="guests" name="guests">
+                            <option value="1">1 hóspede</option>
+                            <option value="2" selected>2 hóspedes</option>
+                            <option value="3">3 hóspedes</option>
+                            <option value="4">4 hóspedes</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Ver Disponibilidade</button>
+                </form>
+                <div class="contact-info">
+                    <h4>Precisa de ajuda?</h4>
+                    <p><i class="fas fa-phone"></i> (21) 3456-7890</p>
+                    <p><i class="fas fa-envelope"></i> reservas@hotelbeiramar.com.br</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room List -->
+        <div class="room-list">
+            <h2>Quartos Disponíveis</h2>
+            
+            <!-- Room 1 -->
+            <div class="room-card">
+                <img src="/images/standard-room.jpg" alt="Quarto Standard">
+                <div class="room-info">
+                    <h3>Quarto Standard</h3>
+                    <p>Quarto confortável com 25m², cama de casal ou duas camas de solteiro, ar-condicionado, TV, minibar e banheiro privativo.</p>
+                    <div class="amenities">
+                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi</span>
+                        <span class="amenity"><i class="fas fa-tv"></i> TV</span>
+                        <span class="amenity"><i class="fas fa-snowflake"></i> Ar-condicionado</span>
+                        <span class="amenity"><i class="fas fa-shower"></i> Chuveiro</span>
+                    </div>
+                    <div class="capacity">
+                        <i class="fas fa-user"></i> <i class="fas fa-user"></i> <span>Capacidade: 2 pessoas</span>
+                    </div>
+                </div>
+                <div class="room-price">
+                    <div class="price">R$ 350</div>
+                    <div class="per-night">por noite</div>
+                    <a href="/reserva/1" class="btn">Reservar</a>
+                </div>
+            </div>
+
+            <!-- Room 2 -->
+            <div class="room-card">
+                <img src="/images/superior-room.jpg" alt="Quarto Superior">
+                <div class="room-info">
+                    <h3>Quarto Superior</h3>
+                    <p>Quarto espaçoso com 35m², cama king size, vista parcial para o mar, ar-condicionado, TV de tela plana, minibar e banheiro privativo com amenidades.</p>
+                    <div class="amenities">
+                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi</span>
+                        <span class="amenity"><i class="fas fa-tv"></i> TV</span>
+                        <span class="amenity"><i class="fas fa-snowflake"></i> Ar-condicionado</span>
+                        <span class="amenity"><i class="fas fa-shower"></i> Chuveiro</span>
+                        <span class="amenity"><i class="fas fa-coffee"></i> Cafeteira</span>
+                    </div>
+                    <div class="capacity">
+                        <i class="fas fa-user"></i> <i class="fas fa-user"></i> <span>Capacidade: 2 pessoas</span>
+                    </div>
+                </div>
+                <div class="room-price">
+                    <div class="price">R$ 450</div>
+                    <div class="per-night">por noite</div>
+                    <a href="/reserva/2" class="btn">Reservar</a>
+                </div>
+            </div>
+
+            <!-- Room 3 -->
+            <div class="room-card">
+                <img src="/images/deluxe-room.jpg" alt="Quarto Deluxe">
+                <div class="room-info">
+                    <h3>Quarto Deluxe com Vista para o Mar</h3>
+                    <p>Quarto luxuoso com 45m², cama king size, ampla vista para o mar, varanda privativa, ar-condicionado, TV de tela plana, minibar, cafeteira e banheiro privativo com banheira.</p>
+                    <div class="amenities">
+                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi</span>
+                        <span class="amenity"><i class="fas fa-tv"></i> TV</span>
+                        <span class="amenity"><i class="fas fa-snowflake"></i> Ar-condicionado</span>
+                        <span class="amenity"><i class="fas fa-bath"></i> Banheira</span>
+                        <span class="amenity"><i class="fas fa-coffee"></i> Cafeteira</span>
+                        <span class="amenity"><i class="fas fa-door-open"></i> Varanda</span>
+                    </div>
+                    <div class="capacity">
+                        <i class="fas fa-user"></i> <i class="fas fa-user"></i> <span>Capacidade: 2 pessoas</span>
+                    </div>
+                </div>
+                <div class="room-price">
+                    <div class="price">R$ 650</div>
+                    <div class="per-night">por noite</div>
+                    <a href="/reserva/3" class="btn">Reservar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="review-list">
+            <h2>Avaliações</h2>
+            <div class="review-summary">
+                <div class="average-rating">
+                    <div class="rating-number">4.2</div>
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="rating-count">245 avaliações</div>
+                </div>
+                <div class="rating-breakdown">
+                    <div class="rating-item">
+                        <span>Limpeza</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 90%"></div>
+                        </div>
+                        <span>4.5</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>Conforto</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 84%"></div>
+                        </div>
+                        <span>4.2</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>Localização</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 96%"></div>
+                        </div>
+                        <span>4.8</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>Serviço</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 80%"></div>
+                        </div>
+                        <span>4.0</span>
+                    </div>
+                    <div class="rating-item">
+                        <span>Custo-benefício</span>
+                        <div class="rating-bar">
+                            <div class="rating-fill" style="width: 78%"></div>
+                        </div>
+                        <span>3.9</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Items -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">Maria S.</div>
+                    <div class="review-date">Maio 2025</div>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="review-content">
+                    <p>Excelente hotel! Localização perfeita em frente à praia de Copacabana. Os quartos são espaçosos e limpos, com uma vista incrível para o mar. O café da manhã é variado e delicioso. A equipe é muito atenciosa e prestativa. Recomendo fortemente!</p>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">João P.</div>
+                    <div class="review-date">Abril 2025</div>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <div class="review-content">
+                    <p>Hotel muito bom, com ótima localização. O quarto era confortável e limpo. A piscina na cobertura tem uma vista espetacular. O café da manhã poderia ter mais opções, mas no geral foi uma ótima estadia.</p>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-user">Ana L.</div>
+                    <div class="review-date">Março 2025</div>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <div class="review-content">
+                    <p>A localização é excelente, mas o hotel precisa de algumas reformas. O ar-condicionado do quarto fazia barulho e o chuveiro não tinha pressão suficiente. A equipe foi prestativa, mas demorou para resolver os problemas.</p>
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-outline">Ver todas as avaliações</a>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <h2>Localização</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.1185621951136!2d-43.18771232532723!3d-22.971054079201383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9bd54579a5956b%3A0xa102deeaffcb3e3!2sCopacabana%20Beach!5e0!3m2!1sen!2sbr!4v1685811234567!5m2!1sen!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="location-details">
+                <div class="location-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Endereço</h4>
+                        <p>Av. Atlântica, 1500 - Copacabana, Rio de Janeiro - RJ, 22021-000</p>
+                    </div>
+                </div>
+                <div class="location-item">
+                    <i class="fas fa-plane"></i>
+                    <div>
+                        <h4>Aeroporto</h4>
+                        <p>Aeroporto Santos Dumont - 8 km (15 min de carro)</p>
+                    </div>
+                </div>
+                <div class="location-item">
+                    <i class="fas fa-subway"></i>
+                    <div>
+                        <h4>Transporte</h4>
+                        <p>Estação de Metrô Cardeal Arcoverde - 500m (6 min a pé)</p>
+                    </div>
+                </div>
+                <div class="location-item">
+                    <i class="fas fa-utensils"></i>
+                    <div>
+                        <h4>Restaurantes</h4>
+                        <p>Diversos restaurantes e bares a menos de 200m</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>123milhas</h3>
+                    <ul class="footer-links">
+                        <li><a href="/sobre">Sobre nós</a></li>
+                        <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
+                        <li><a href="/parceiros">Seja um parceiro</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Viajantes</h3>
+                    <ul class="footer-links">
+                        <li><a href="/como-reservar">Como reservar</a></li>
+                        <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
+                        <li><a href="/politica-cancelamento">Política de cancelamento</a></li>
+                        <li><a href="/programa-fidelidade">Programa de fidelidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Destinos</h3>
+                    <ul class="footer-links">
+                        <li><a href="/hoteis/rio-de-janeiro">Rio de Janeiro</a></li>
+                        <li><a href="/hoteis/sao-paulo">São Paulo</a></li>
+                        <li><a href="/hoteis/gramado">Gramado</a></li>
+                        <li><a href="/hoteis/porto-de-galinhas">Porto de Galinhas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> 0800 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> contato@123milhas.com.br</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - São Paulo</li>
+                        <li>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 123milhas - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

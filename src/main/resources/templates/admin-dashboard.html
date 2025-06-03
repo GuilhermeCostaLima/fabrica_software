@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - 123milhas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-logo">
+            <div class="logo">123<span>milhas</span> <small>Admin</small></div>
+        </div>
+        <div class="admin-user">
+            <img src="/images/admin-avatar.jpg" alt="Admin Avatar" class="admin-avatar">
+            <div class="admin-user-info">
+                <span class="admin-name">Admin Silva</span>
+                <span class="admin-role">Administrador</span>
+            </div>
+            <div class="admin-dropdown">
+                <i class="fas fa-chevron-down"></i>
+                <div class="admin-dropdown-menu">
+                    <a href="/admin/perfil"><i class="fas fa-user"></i> Perfil</a>
+                    <a href="/admin/configuracoes"><i class="fas fa-cog"></i> Configurações</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active">
+                        <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/admin/hoteis"><i class="fas fa-hotel"></i> Hotéis</a>
+                    </li>
+                    <li>
+                        <a href="/admin/quartos"><i class="fas fa-bed"></i> Quartos</a>
+                    </li>
+                    <li>
+                        <a href="/admin/reservas"><i class="fas fa-calendar-check"></i> Reservas</a>
+                    </li>
+                    <li>
+                        <a href="/admin/usuarios"><i class="fas fa-users"></i> Usuários</a>
+                    </li>
+                    <li>
+                        <a href="/admin/pagamentos"><i class="fas fa-credit-card"></i> Pagamentos</a>
+                    </li>
+                    <li>
+                        <a href="/admin/avaliacoes"><i class="fas fa-star"></i> Avaliações</a>
+                    </li>
+                    <li>
+                        <a href="/admin/relatorios"><i class="fas fa-chart-bar"></i> Relatórios</a>
+                    </li>
+                    <li>
+                        <a href="/admin/configuracoes"><i class="fas fa-cog"></i> Configurações</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-content">
+            <div class="admin-content-header">
+                <h1>Dashboard</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-outline"><i class="fas fa-download"></i> Exportar</button>
+                    <button class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Atualizar</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="admin-stats">
+                <div class="admin-stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>152</h3>
+                        <p>Reservas Hoje</p>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>R$ 45.850</h3>
+                        <p>Receita Hoje</p>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 8%
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>48</h3>
+                        <p>Novos Usuários</p>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 5%
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="stat-icon red">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>4.7</h3>
+                        <p>Avaliação Média</p>
+                    </div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i> 2%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="admin-charts">
+                <div class="admin-chart-card">
+                    <div class="chart-header">
+                        <h3>Reservas por Mês</h3>
+                        <div class="chart-actions">
+                            <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="reservationsChart"></canvas>
+                    </div>
+                </div>
+                <div class="admin-chart-card">
+                    <div class="chart-header">
+                        <h3>Receita por Categoria</h3>
+                        <div class="chart-actions">
+                            <button class="btn-icon"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Reservations -->
+            <div class="admin-table-card">
+                <div class="table-header">
+                    <h3>Reservas Recentes</h3>
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <input type="text" placeholder="Buscar...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <button class="btn btn-outline">Ver Todas</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Hotel</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#RES123456</td>
+                                <td>João Silva</td>
+                                <td>Hotel Beira Mar</td>
+                                <td>15/06/2025</td>
+                                <td>18/06/2025</td>
+                                <td>R$ 1.485,00</td>
+                                <td><span class="status-badge confirmed">Confirmada</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RES123457</td>
+                                <td>Maria Oliveira</td>
+                                <td>Pousada Montanha</td>
+                                <td>20/06/2025</td>
+                                <td>25/06/2025</td>
+                                <td>R$ 2.100,00</td>
+                                <td><span class="status-badge pending">Pendente</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RES123458</td>
+                                <td>Carlos Santos</td>
+                                <td>Resort Tropical</td>
+                                <td>18/06/2025</td>
+                                <td>22/06/2025</td>
+                                <td>R$ 2.320,00</td>
+                                <td><span class="status-badge confirmed">Confirmada</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RES123459</td>
+                                <td>Ana Pereira</td>
+                                <td>Hotel Central Rio</td>
+                                <td>22/06/2025</td>
+                                <td>24/06/2025</td>
+                                <td>R$ 440,00</td>
+                                <td><span class="status-badge cancelled">Cancelada</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#RES123460</td>
+                                <td>Paulo Costa</td>
+                                <td>Ipanema Beach Resort</td>
+                                <td>25/06/2025</td>
+                                <td>30/06/2025</td>
+                                <td>R$ 3.250,00</td>
+                                <td><span class="status-badge confirmed">Confirmada</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-pagination">
+                    <span>Mostrando 1-5 de 152 itens</span>
+                    <div class="pagination-controls">
+                        <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn-page active">1</button>
+                        <button class="btn-page">2</button>
+                        <button class="btn-page">3</button>
+                        <span>...</span>
+                        <button class="btn-page">31</button>
+                        <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Hotels -->
+            <div class="admin-table-card">
+                <div class="table-header">
+                    <h3>Hotéis Mais Reservados</h3>
+                    <div class="table-actions">
+                        <button class="btn btn-outline">Ver Todos</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Hotel</th>
+                                <th>Localização</th>
+                                <th>Reservas</th>
+                                <th>Ocupação</th>
+                                <th>Avaliação</th>
+                                <th>Receita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="hotel-info">
+                                        <img src="/images/hotel1.jpg" alt="Hotel Beira Mar">
+                                        <span>Hotel Beira Mar</span>
+                                    </div>
+                                </td>
+                                <td>Rio de Janeiro, RJ</td>
+                                <td>245</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 85%"></div>
+                                    </div>
+                                    <span>85%</span>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>4.2</span>
+                                    </div>
+                                </td>
+                                <td>R$ 245.350</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="hotel-info">
+                                        <img src="/images/hotel3.jpg" alt="Resort Tropical">
+                                        <span>Resort Tropical</span>
+                                    </div>
+                                </td>
+                                <td>Porto de Galinhas, PE</td>
+                                <td>198</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 78%"></div>
+                                    </div>
+                                    <span>78%</span>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>4.8</span>
+                                    </div>
+                                </td>
+                                <td>R$ 312.480</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="hotel-info">
+                                        <img src="/images/hotel2.jpg" alt="Pousada Montanha">
+                                        <span>Pousada Montanha</span>
+                                    </div>
+                                </td>
+                                <td>Gramado, RS</td>
+                                <td>187</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 92%"></div>
+                                    </div>
+                                    <span>92%</span>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span>4.5</span>
+                                    </div>
+                                </td>
+                                <td>R$ 187.650</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

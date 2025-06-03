@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - 123milhas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">123<span>milhas</span></div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/hoteis" class="active">Hotéis</a></li>
+                    <li><a href="/promocoes">Promoções</a></li>
+                    <li><a href="/sobre">Sobre</a></li>
+                    <li><a href="/contato">Contato</a></li>
+                </ul>
+                <div class="auth-links">
+                    <a href="/login" class="btn btn-outline">Login</a>
+                    <a href="/cadastro" class="btn">Cadastre-se</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Payment Form -->
+    <section class="container">
+        <div class="reservation-steps">
+            <div class="step completed">
+                <div class="step-number"><i class="fas fa-check"></i></div>
+                <div class="step-text">Detalhes da Reserva</div>
+            </div>
+            <div class="step active">
+                <div class="step-number">2</div>
+                <div class="step-text">Pagamento</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Confirmação</div>
+            </div>
+        </div>
+
+        <div class="payment-form">
+            <h2>Pagamento</h2>
+            <form action="/confirmacao" method="POST">
+                <div class="form-section">
+                    <h3>Método de Pagamento</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method active">
+                            <img src="/images/credit-card.png" alt="Cartão de Crédito">
+                            <span>Cartão de Crédito</span>
+                        </div>
+                        <div class="payment-method">
+                            <img src="/images/pix.png" alt="PIX">
+                            <span>PIX</span>
+                        </div>
+                        <div class="payment-method">
+                            <img src="/images/bank-transfer.png" alt="Transferência Bancária">
+                            <span>Transferência</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section card-form">
+                    <h3>Dados do Cartão</h3>
+                    <div class="form-group">
+                        <label for="card-number">Número do Cartão</label>
+                        <input type="text" id="card-number" name="card_number" placeholder="0000 0000 0000 0000" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-name">Nome no Cartão</label>
+                            <input type="text" id="card-name" name="card_name" placeholder="Como aparece no cartão" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry-date">Data de Validade</label>
+                            <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="installments">Parcelamento</label>
+                        <select id="installments" name="installments">
+                            <option value="1">À vista - R$ 1.485,00</option>
+                            <option value="2">2x sem juros - R$ 742,50</option>
+                            <option value="3">3x sem juros - R$ 495,00</option>
+                            <option value="4">4x sem juros - R$ 371,25</option>
+                            <option value="5">5x sem juros - R$ 297,00</option>
+                            <option value="6">6x sem juros - R$ 247,50</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Endereço de Cobrança</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="zip-code">CEP</label>
+                            <input type="text" id="zip-code" name="zip_code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="street">Endereço</label>
+                            <input type="text" id="street" name="street" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="number">Número</label>
+                            <input type="text" id="number" name="number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="complement">Complemento</label>
+                            <input type="text" id="complement" name="complement">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="neighborhood">Bairro</label>
+                            <input type="text" id="neighborhood" name="neighborhood" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Cidade</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">Estado</label>
+                            <select id="state" name="state" required>
+                                <option value="">Selecione</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">País</label>
+                            <input type="text" id="country" name="country" value="Brasil" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reservation-summary">
+                    <h3>Resumo da Reserva</h3>
+                    <div class="hotel-info-summary">
+                        <img src="/images/hotel1.jpg" alt="Hotel Beira Mar">
+                        <div>
+                            <h4>Hotel Beira Mar</h4>
+                            <p><i class="fas fa-map-marker-alt"></i> Copacabana, Rio de Janeiro</p>
+                            <p><i class="fas fa-calendar-alt"></i> 15/06/2025 a 18/06/2025 (3 noites)</p>
+                        </div>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <span>Quarto Superior</span>
+                            <span>R$ 450 x 3 noites</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Impostos e taxas (10%)</span>
+                            <span>R$ 135</span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Total</span>
+                            <span>R$ 1.485</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">Confirmo que todas as informações fornecidas são verdadeiras e autorizo a cobrança no valor total de R$ 1.485,00.</label>
+                    </div>
+                </div>
+
+                <div class="payment-actions">
+                    <a href="/reserva" class="btn btn-outline">Voltar</a>
+                    <button type="submit" class="btn btn-secondary">Finalizar Pagamento</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>123milhas</h3>
+                    <ul class="footer-links">
+                        <li><a href="/sobre">Sobre nós</a></li>
+                        <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
+                        <li><a href="/parceiros">Seja um parceiro</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Viajantes</h3>
+                    <ul class="footer-links">
+                        <li><a href="/como-reservar">Como reservar</a></li>
+                        <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
+                        <li><a href="/politica-cancelamento">Política de cancelamento</a></li>
+                        <li><a href="/programa-fidelidade">Programa de fidelidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Destinos</h3>
+                    <ul class="footer-links">
+                        <li><a href="/hoteis/rio-de-janeiro">Rio de Janeiro</a></li>
+                        <li><a href="/hoteis/sao-paulo">São Paulo</a></li>
+                        <li><a href="/hoteis/gramado">Gramado</a></li>
+                        <li><a href="/hoteis/porto-de-galinhas">Porto de Galinhas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> 0800 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> contato@123milhas.com.br</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - São Paulo</li>
+                        <li>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 123milhas - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>123milhas - Reservas de Hotéis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">123<span>milhas</span></div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/hotel">Hotéis</a></li>
+                    <li><a href="/promocoes">Promoções</a></li>
+                    <li><a href="/sobre">Sobre</a></li>
+                    <li><a href="/contato">Contato</a></li>
+                </ul>
+                <div class="auth-links">
+                    <a href="/login" class="btn btn-outline">Login</a>
+                    <a href="/cadastro" class="btn">Cadastre-se</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Encontre a hospedagem perfeita para sua viagem</h1>
+            <p>Milhares de opções de hotéis com os melhores preços e condições para você aproveitar ao máximo sua estadia.</p>
+            
+            <!-- Search Form -->
+            <div class="search-form">
+                <form action="/hoteis/busca" method="GET">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="destination">Destino</label>
+                            <input type="text" id="destination" name="destination" placeholder="Para onde você vai?">
+                        </div>
+                        <div class="form-group">
+                            <label for="check-in">Check-in</label>
+                            <input type="date" id="check-in" name="check_in">
+                        </div>
+                        <div class="form-group">
+                            <label for="check-out">Check-out</label>
+                            <input type="date" id="check-out" name="check_out">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="guests">Hóspedes</label>
+                            <select id="guests" name="guests">
+                                <option value="1">1 hóspede</option>
+                                <option value="2" selected>2 hóspedes</option>
+                                <option value="3">3 hóspedes</option>
+                                <option value="4">4 hóspedes</option>
+                                <option value="5">5 hóspedes</option>
+                                <option value="6">6+ hóspedes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="room-type">Tipo de quarto</label>
+                            <select id="room-type" name="room_type">
+                                <option value="">Qualquer tipo</option>
+                                <option value="standard">Standard</option>
+                                <option value="deluxe">Deluxe</option>
+                                <option value="suite">Suite</option>
+                                <option value="family">Familiar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Buscar Hotéis</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Hotels -->
+    <section class="container">
+        <h2>Hotéis em Destaque</h2>
+        <div class="hotel-list">
+            <!-- Hotel Card 1 -->
+            <div class="hotel-card">
+                <img src="/images/hotel1.jpg" alt="Hotel Beira Mar">
+                <div class="hotel-card-content">
+                    <h3>Hotel Beira Mar</h3>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Rio de Janeiro, RJ
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>(245 avaliações)</span>
+                    </div>
+                    <div class="price">
+                        R$ 350 <span>/ noite</span>
+                    </div>
+                    <a href="/hoteis/1" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+
+            <!-- Hotel Card 2 -->
+            <div class="hotel-card">
+                <img src="/images/hotel2.jpg" alt="Pousada Montanha">
+                <div class="hotel-card-content">
+                    <h3>Pousada Montanha</h3>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Gramado, RS
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(187 avaliações)</span>
+                    </div>
+                    <div class="price">
+                        R$ 420 <span>/ noite</span>
+                    </div>
+                    <a href="/hoteis/2" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+
+            <!-- Hotel Card 3 -->
+            <div class="hotel-card">
+                <img src="/images/hotel3.jpg" alt="Resort Tropical">
+                <div class="hotel-card-content">
+                    <h3>Resort Tropical</h3>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i> Porto de Galinhas, PE
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(312 avaliações)</span>
+                    </div>
+                    <div class="price">
+                        R$ 580 <span>/ noite</span>
+                    </div>
+                    <a href="/hoteis/3" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section class="container">
+        <h2>Destinos Populares</h2>
+        <div class="hotel-list">
+            <!-- Destination 1 -->
+            <div class="hotel-card">
+                <img src="/images/rio.jpg" alt="Rio de Janeiro">
+                <div class="hotel-card-content">
+                    <h3>Rio de Janeiro</h3>
+                    <p>A cidade maravilhosa com praias deslumbrantes e o Cristo Redentor.</p>
+                    <a href="/hoteis/busca?destination=Rio+de+Janeiro" class="btn">Ver Hotéis</a>
+                </div>
+            </div>
+
+            <!-- Destination 2 -->
+            <div class="hotel-card">
+                <img src="/images/gramado.jpg" alt="Gramado">
+                <div class="hotel-card-content">
+                    <h3>Gramado</h3>
+                    <p>Charme europeu com gastronomia e paisagens de tirar o fôlego.</p>
+                    <a href="/hoteis/busca?destination=Gramado" class="btn">Ver Hotéis</a>
+                </div>
+            </div>
+
+            <!-- Destination 3 -->
+            <div class="hotel-card">
+                <img src="/images/porto-galinhas.jpg" alt="Porto de Galinhas">
+                <div class="hotel-card-content">
+                    <h3>Porto de Galinhas</h3>
+                    <p>Piscinas naturais e praias paradisíacas no litoral pernambucano.</p>
+                    <a href="/hoteis/busca?destination=Porto+de+Galinhas" class="btn">Ver Hotéis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="container">
+        <h2>Por que escolher a 123milhas?</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-tag fa-3x"></i>
+                <h3>Melhores Preços</h3>
+                <p>Garantimos os melhores preços do mercado com nossa política de preço justo.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-credit-card fa-3x"></i>
+                <h3>Pagamento Seguro</h3>
+                <p>Diversas formas de pagamento com total segurança para sua tranquilidade.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset fa-3x"></i>
+                <h3>Suporte 24/7</h3>
+                <p>Atendimento disponível 24 horas por dia, 7 dias por semana.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-percent fa-3x"></i>
+                <h3>Promoções Exclusivas</h3>
+                <p>Acesso a ofertas e descontos exclusivos para nossos clientes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Receba nossas ofertas</h2>
+            <p>Cadastre-se para receber promoções exclusivas e novidades sobre destinos.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Seu melhor e-mail">
+                <button type="submit" class="btn">Inscrever-se</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>123milhas</h3>
+                    <ul class="footer-links">
+                        <li><a href="/sobre">Sobre nós</a></li>
+                        <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
+                        <li><a href="/parceiros">Seja um parceiro</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Viajantes</h3>
+                    <ul class="footer-links">
+                        <li><a href="/como-reservar">Como reservar</a></li>
+                        <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
+                        <li><a href="/politica-cancelamento">Política de cancelamento</a></li>
+                        <li><a href="/programa-fidelidade">Programa de fidelidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Destinos</h3>
+                    <ul class="footer-links">
+                        <li><a href="/hoteis/rio-de-janeiro">Rio de Janeiro</a></li>
+                        <li><a href="/hoteis/sao-paulo">São Paulo</a></li>
+                        <li><a href="/hoteis/gramado">Gramado</a></li>
+                        <li><a href="/hoteis/porto-de-galinhas">Porto de Galinhas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> 0800 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> contato@123milhas.com.br</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - São Paulo</li>
+                        <li>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 123milhas - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+@startuml
+!theme plain
+
+class User {
+  +Long id
+  +String username
+  +String password
+  +String email
+  +Set<Role> roles
+}
+
+class Role {
+  +Long id
+  +String name // e.g., ROLE_ADMIN, ROLE_USER
+}
+
+' Placeholder for application-specific data
+' Needs clarification from the user/requirements
+class Item {
+  +Long id
+  +String name
+  +String description
+  +User owner ' Example relationship: Item belongs to a User
+}
+
+User "1" *-- "*" Role : roles
+Item "*" -- "1" User : owner
+
+@enduml
