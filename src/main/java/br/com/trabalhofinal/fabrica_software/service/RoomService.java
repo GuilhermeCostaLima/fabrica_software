@@ -4,6 +4,7 @@ import br.com.trabalhofinal.fabrica_software.model.Room;
 import br.com.trabalhofinal.fabrica_software.model.RoomAvailability;
 import br.com.trabalhofinal.fabrica_software.repository.RoomRepository;
 import br.com.trabalhofinal.fabrica_software.repository.RoomAvailabilityRepository;
+import br.com.trabalhofinal.fabrica_software.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,170 +12,118 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
-/**
-Serviço para operações relacionadas a quartos.
-*/
 @Service
 public class RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomAvailabilityRepository roomAvailabilityRepository;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository, RoomAvailabilityRepository roomAvailabilityRepository) {
+    public RoomService(RoomRepository roomRepository, RoomAvailabilityRepository roomAvailabilityRepository, ReservationRepository reservationRepository) {
         this.roomRepository = roomRepository;
         this.roomAvailabilityRepository = roomAvailabilityRepository;
+        this.reservationRepository = reservationRepository;
     }
 
-    /**
-    Busca todos os quartos
-    @return Lista de quartos
-    */
     public List<Room> findAll() {
         return roomRepository.findAll();
     }
-
-    /**
-    Busca um quarto pelo ID
-    @param id ID do quarto
-    @return Optional contendo o quarto, se encontrado
-    */
     public Optional<Room> findById(Long id) {
         return roomRepository.findById(id);
     }
-
-    /**
-    Busca quartos pelo hotel
-    @param hotelId ID do hotel
-    @return Lista de quartos encontrados
-    */
     public List<Room> findByHotelId(Long hotelId) {
         return roomRepository.findByHotelId(hotelId);
     }
-
-    /**
-    usca quartos disponíveis pelo hotel.
-    @param hotelId ID do hotel
-    @return Lista de quartos disponíveis
-    */
     public List<Room> findAvailableByHotelId(Long hotelId) {
-        return roomRepository.findByHotelIdAndAvailableTrue(hotelId);
+        return roomRepository.findByHotelIdAndActiveTrue(hotelId);
     }
-
-    /**
-    Busca quartos pelo tipo
-    @param roomType Tipo de quarto
-    @return Lista de quartos encontrados
-    */
     public List<Room> findByRoomType(String roomType) {
-        return roomRepository.findByRoomType(roomType);
+        return roomRepository.findByType(roomType);
     }
-
-    /**
-    Busca quartos pela capacidade mínima
-    @param capacity Capacidade mínima
-    @return Lista de quartos encontrados
-    */
     public List<Room> findByCapacityGreaterThanEqual(Integer capacity) {
         return roomRepository.findByCapacityGreaterThanEqual(capacity);
     }
-
-    /**
-    Busca quartos disponíveis para um período específico
-    @param hotelId ID do hotel
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return Lista de quartos disponíveis
-    */
     public List<Room> findAvailableRooms(Long hotelId, LocalDate startDate, LocalDate endDate) {
         return roomRepository.findAvailableRooms(hotelId, startDate, endDate);
     }
-
-    /**
-    Busca quartos por faixa de preço
-    @param minPrice Preço mínimo
-    @param maxPrice Preço máximo
-    @return Lista de quartos encontrados
-    */
     public List<Room> findByPriceRange(Double minPrice, Double maxPrice) {
-        return roomRepository.findByPricePerNightBetween(minPrice, maxPrice);
+        return roomRepository.findByDailyRateBetween(minPrice, maxPrice);
+    }
+    public List<Room> findAvailableRooms(Long hotelId, LocalDate startDate, LocalDate endDate, Integer capacity) {
+        List<Room> rooms = roomRepository.findByHotelId(hotelId);
+        return rooms.stream()
+                .filter(room -> room.getCapacity() >= capacity)
+                .filter(room -> isAvailable(room, startDate, endDate))
+                .toList();
+    }
+    public List<Room> findByMinCapacity(Integer capacity) {
+        return roomRepository.findByCapacityGreaterThanEqual(capacity);
     }
 
-    /**
-    Cria um novo quarto
-    @param room Quarto a ser criado
-    @return Quarto criado
-    */
     @Transactional
     public Room create(Room room) {
+        if (room.getHotel() == null) {
+            throw new IllegalArgumentException("Hotel é obrigatório");
+        }
+        if (room.getNumber() == null || room.getNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("Número do quarto é obrigatório");
+        }
+        if (room.getType() == null || room.getType().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tipo do quarto é obrigatório");
+        }
+        if (room.getCapacity() == null || room.getCapacity() < 1) {
+            throw new IllegalArgumentException("Capacidade deve ser maior que zero");
+        }
+        if (room.getDailyRate() == null || room.getDailyRate() <= 0) {
+            throw new IllegalArgumentException("Tarifa diária deve ser maior que zero");
+        }
+
         return roomRepository.save(room);
     }
-
-    /**
-    Atualiza um quarto existente
-    @param id ID do quarto
-    @param roomDetails Detalhes atualizados do quarto
-    @return Quarto atualizado
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     @Transactional
-    public Room update(Long id, Room roomDetails) {
-        Room room = roomRepository.findById(id)
+    public Room update(Long id, Room room) {
+        Room existingRoom = roomRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + id));
 
-        room.setRoomNumber(roomDetails.getRoomNumber());
-        room.setRoomType(roomDetails.getRoomType());
-        room.setCapacity(roomDetails.getCapacity());
-        room.setPricePerNight(roomDetails.getPricePerNight());
-        room.setAmenities(roomDetails.getAmenities());
-        room.setImages(roomDetails.getImages());
-        room.setAvailable(roomDetails.getAvailable());
+        if (room.getNumber() != null && !room.getNumber().trim().isEmpty()) {
+            existingRoom.setNumber(room.getNumber());
+        }
+        if (room.getType() != null && !room.getType().trim().isEmpty()) {
+            existingRoom.setType(room.getType());
+        }
+        if (room.getCapacity() != null && room.getCapacity() > 0) {
+            existingRoom.setCapacity(room.getCapacity());
+        }
+        if (room.getDailyRate() != null && room.getDailyRate() > 0) {
+            existingRoom.setDailyRate(room.getDailyRate());
+        }
+        if (room.getDescription() != null) {
+            existingRoom.setDescription(room.getDescription());
+        }
+        if (room.getAmenities() != null) {
+            existingRoom.setAmenities(room.getAmenities());
+        }
+        existingRoom.setActive(room.isActive());
 
-        return roomRepository.save(room);
+        return roomRepository.save(existingRoom);
     }
-
-    /**
-    Atualiza a disponibilidade de um quarto
-    @param id ID do quarto
-    @param available Status de disponibilidade
-    @return Quarto atualizado
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     @Transactional
     public Room updateAvailability(Long id, Boolean available) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + id));
 
-        room.setAvailable(available);
+        room.setActive(available);
         return roomRepository.save(room);
     }
-
-    /**
-    Atualiza o preço de um quarto
-    @param id ID do quarto
-    @param price Novo preço
-    @return Quarto atualizado
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     @Transactional
     public Room updatePrice(Long id, Double price) {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + id));
 
-        room.setPricePerNight(price);
+        room.setDailyRate(price);
         return roomRepository.save(room);
     }
-
-    /**
-    Define a disponibilidade de um quarto para uma data específica
-    @param roomId ID do quarto
-    @param date Data
-    @param isAvailable Status de disponibilidade
-    @param specialPrice Preço especial (opcional)
-    @return Disponibilidade do quarto
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     @Transactional
     public RoomAvailability setAvailabilityForDate(Long roomId, LocalDate date, Boolean isAvailable, Double specialPrice) {
         Room room = roomRepository.findById(roomId)
@@ -196,22 +145,13 @@ public class RoomService {
 
         return roomAvailabilityRepository.save(availability);
     }
-
-    /**
-    Define a disponibilidade de um quarto para um período
-    @param roomId ID do quarto
-    @param startDate Data de início
-    @param endDate Data de fim
-    @param isAvailable Status de disponibilidade
-    @param specialPrice Preço especial (opcional)
-    @return Lista de disponibilidades do quarto
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     @Transactional
     public List<RoomAvailability> setAvailabilityForPeriod(Long roomId, LocalDate startDate, LocalDate endDate, 
                                                          Boolean isAvailable, Double specialPrice) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + roomId));
+
+        if (!roomRepository.existsById(roomId)) {
+            throw new IllegalArgumentException("Quarto não encontrado com ID: " + roomId);
+        }
 
         LocalDate currentDate = startDate;
         while (!currentDate.isAfter(endDate)) {
@@ -222,18 +162,44 @@ public class RoomService {
         return roomAvailabilityRepository.findByRoomIdAndDateBetween(roomId, startDate, endDate);
     }
 
-    /**
-    Verifica a disponibilidade de um quarto para um período
-    @param roomId ID do quarto
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return true se o quarto estiver disponível, false caso contrário
-    @throws IllegalArgumentException se o quarto não for encontrado
-    */
     public boolean checkAvailability(Long roomId, LocalDate startDate, LocalDate endDate) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + roomId));
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + roomId))
+                .checkAvailability(startDate, endDate);
+    }
 
-        return room.checkAvailability(startDate, endDate);
+    public boolean isAvailable(Room room, LocalDate checkIn, LocalDate checkOut) {
+        if (room == null || checkIn == null || checkOut == null) {
+            return false;
+        }
+
+        if (checkIn.isAfter(checkOut) || checkIn.isBefore(LocalDate.now())) {
+            return false;
+        }
+
+        if (!room.isActive()) {
+            return false;
+        }
+
+        long conflictingReservations = reservationRepository.countConflictingReservations(
+            room.getId(), checkIn, checkOut);
+
+        return conflictingReservations == 0;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + id));
+        room.setActive(false);
+        roomRepository.save(room);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + id));
+        room.setActive(true);
+        roomRepository.save(room);
     }
 }

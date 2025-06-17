@@ -1,17 +1,21 @@
 package br.com.trabalhofinal.fabrica_software.service;
 
 import br.com.trabalhofinal.fabrica_software.model.Hotel;
+import br.com.trabalhofinal.fabrica_software.model.Room;
+import br.com.trabalhofinal.fabrica_software.model.Reservation;
 import br.com.trabalhofinal.fabrica_software.repository.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-/**
-Serviço para operações relacionadas a hotéis.
-*/
 @Service
 public class HotelService {
 
@@ -22,94 +26,42 @@ public class HotelService {
         this.hotelRepository = hotelRepository;
     }
 
-    /**
-    Busca todos os hotéis ativos
-    @return Lista de hotéis ativos
-    */
     public List<Hotel> findAllActive() {
         return hotelRepository.findByActiveTrue();
     }
-
-    /**
-    Busca todos os hotéis (ativos e inativos)
-    @return Lista de todos os hotéis
-    */
     public List<Hotel> findAll() {
         return hotelRepository.findAll();
     }
-
-    /**
-    Busca um hotel pelo ID
-    @param id ID do hotel
-    @return Optional contendo o hotel, se encontrado
-    */
     public Optional<Hotel> findById(Long id) {
         return hotelRepository.findById(id);
     }
-
-    /**
-    Busca hotéis pelo nome
-    @param name Nome ou parte do nome do hotel
-    @return Lista de hotéis encontrados
-    */
     public List<Hotel> findByName(String name) {
         return hotelRepository.findByNameContainingIgnoreCase(name);
     }
-
-    /**
-    Busca hotéis pela cidade
-    @param city Nome da cidade
-    @return Lista de hotéis encontrados
-    */
     public List<Hotel> findByCity(String city) {
         return hotelRepository.findByCity(city);
     }
-
-    /**
-    Busca hotéis pelo estado
-    @param state Nome do estado
-    @return Lista de hotéis encontrados
-    */
     public List<Hotel> findByState(String state) {
         return hotelRepository.findByState(state);
     }
-
-    /**
-    Busca hotéis pela classificação (número de estrelas)
-    @param stars Número de estrelas
-    @return Lista de hotéis encontrados
-    */
+    public List<Hotel> findFeaturedHotels() {
+        return hotelRepository.findByFeaturedTrueAndActiveTrue();
+    }
     public List<Hotel> findByStars(Integer stars) {
         return hotelRepository.findByStarsAndActiveTrue(stars);
     }
-
-    /**
-    Busca hotéis com classificação maior ou igual à especificada
-    @param stars Número mínimo de estrelas
-    @return Lista de hotéis encontrados
-    */
     public List<Hotel> findByStarsGreaterThanEqual(Integer stars) {
         return hotelRepository.findByStarsGreaterThanEqualAndActiveTrue(stars);
     }
+    public long countAll() {
+        return hotelRepository.count();
+    }
 
-    /**
-    Cria um novo hotel
-    @param hotel Hotel a ser criado
-    @return Hotel criado
-    */
     @Transactional
     public Hotel create(Hotel hotel) {
         hotel.setActive(true);
         return hotelRepository.save(hotel);
     }
-
-    /**
-    Atualiza um hotel existente
-    @param id ID do hotel
-    @param hotelDetails Detalhes atualizados do hotel
-    @return Hotel atualizado
-    @throws IllegalArgumentException se o hotel não for encontrado
-    */
     @Transactional
     public Hotel update(Long id, Hotel hotelDetails) {
         Hotel hotel = hotelRepository.findById(id)
@@ -125,13 +77,6 @@ public class HotelService {
 
         return hotelRepository.save(hotel);
     }
-
-    /**
-    Desativa um hotel
-    @param id ID do hotel
-    @return Hotel desativado
-    @throws IllegalArgumentException se o hotel não for encontrado
-    */
     @Transactional
     public Hotel deactivate(Long id) {
         Hotel hotel = hotelRepository.findById(id)
@@ -140,13 +85,6 @@ public class HotelService {
         hotel.setActive(false);
         return hotelRepository.save(hotel);
     }
-
-    /**
-    Ativa um hotel
-    @param id ID do hotel
-    @return Hotel ativado
-    @throws IllegalArgumentException se o hotel não for encontrado
-    */
     @Transactional
     public Hotel activate(Long id) {
         Hotel hotel = hotelRepository.findById(id)
@@ -155,13 +93,6 @@ public class HotelService {
         hotel.setActive(true);
         return hotelRepository.save(hotel);
     }
-
-    /**
-    Recalcula a média de avaliações de um hotel
-    @param id ID do hotel
-    @return Hotel com média atualizada
-    @throws IllegalArgumentException se o hotel não for encontrado
-    */
     @Transactional
     public Hotel recalculateAverageRating(Long id) {
         Hotel hotel = hotelRepository.findById(id)
@@ -169,5 +100,47 @@ public class HotelService {
 
         hotel.calculateAverageRating();
         return hotelRepository.save(hotel);
+    }
+
+    public List<Hotel> searchHotels(String destination, LocalDate checkIn, LocalDate checkOut, Integer guests, String roomType) {
+        List<Hotel> hotels = hotelRepository.findByCityIgnoreCaseOrStateIgnoreCase(destination, destination);
+        
+        if (hotels.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return hotels.stream()
+            .filter(hotel -> hasAvailableRooms(hotel, checkIn, checkOut, guests, roomType))
+            .collect(Collectors.toList());
+    }
+    private boolean hasAvailableRooms(Hotel hotel, LocalDate checkIn, LocalDate checkOut, Integer guests, String roomType) {
+        List<Room> availableRooms = hotel.getRooms().stream()
+            .filter(room -> room.getCapacity() >= guests)
+            .filter(room -> roomType == null || roomType.isEmpty() || room.getType().equalsIgnoreCase(roomType))
+            .filter(room -> isRoomAvailable(room, checkIn, checkOut))
+            .collect(Collectors.toList());
+
+        return !availableRooms.isEmpty();
+    }
+    private boolean isRoomAvailable(Room room, LocalDate checkIn, LocalDate checkOut) {
+        return room.getReservations().stream()
+            .noneMatch((Reservation reservation) -> 
+                (checkIn.isBefore(reservation.getCheckOutDate()) || checkIn.isEqual(reservation.getCheckOutDate())) &&
+                (checkOut.isAfter(reservation.getCheckInDate()) || checkOut.isEqual(reservation.getCheckInDate()))
+            );
+    }
+    public Page<Hotel> findAllActiveWithFilters(Pageable pageable, Integer minStars, String city, String state) {
+        return hotelRepository.findAllActiveWithFilters(pageable, minStars, city, state);
+    }
+    public Page<Hotel> searchHotelsWithFilters(
+            String destination, 
+            LocalDate checkIn, 
+            LocalDate checkOut, 
+            Integer guests, 
+            String roomType,
+            Integer minStars,
+            Pageable pageable) {
+        return hotelRepository.searchHotelsWithFilters(
+            destination, checkIn, checkOut, guests, roomType, minStars, pageable);
     }
 }

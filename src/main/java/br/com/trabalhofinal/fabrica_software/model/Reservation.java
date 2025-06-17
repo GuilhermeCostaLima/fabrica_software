@@ -9,9 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-/**
-Entidade que representa uma reserva de quarto no sistema
-*/
+
 @Entity
 @Table(name = "reservations")
 @Data
@@ -56,10 +54,6 @@ public class Reservation {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
     
-    /**
-    Calcula o preço total da reserva com base nas datas e no preço do quarto
-    @return O preço total da reserva
-    */
     public Double calculateTotalPrice() {
         if (checkInDate == null || checkOutDate == null || room == null) {
             return 0.0;
@@ -70,24 +64,21 @@ public class Reservation {
         if (nights <= 0) {
             return 0.0;
         }
-        
-        // Verifica se há preços especiais para as datas selecionadas
+
         double total = 0.0;
         LocalDate currentDate = checkInDate;
         
         while (!currentDate.isAfter(checkOutDate.minusDays(1))) {
             Double specialPrice = null;
-            
-            // Busca por preço especial para a data atual
+
             for (RoomAvailability availability : room.getAvailabilityCalendar()) {
                 if (availability.getDate().equals(currentDate) && availability.getSpecialPrice() != null) {
                     specialPrice = availability.getSpecialPrice();
                     break;
                 }
             }
-            
-            // Usa o preço especial ou o preço padrão do quarto
-            total += (specialPrice != null) ? specialPrice : room.getPricePerNight();
+
+            total += (specialPrice != null) ? specialPrice : room.getDailyRate();
             
             currentDate = currentDate.plusDays(1);
         }
@@ -95,17 +86,12 @@ public class Reservation {
         this.totalPrice = total;
         return total;
     }
-    
-    /**
-    Cancela a reserva 
-    @return true se a reserva foi cancelada com sucesso, false caso contrário
-    */
+
     public boolean cancel() {
         if (this.status == ReservationStatus.PENDING || this.status == ReservationStatus.CONFIRMED) {
             this.status = ReservationStatus.CANCELLED;
             this.updatedAt = LocalDateTime.now();
-            
-            // Se houver pagamento e ele já foi concluído, realiza o reembolso
+
             if (this.payment != null && this.payment.getStatus() == br.com.trabalhofinal.fabrica_software.enums.PaymentStatus.COMPLETED) {
                 this.payment.refund();
             }
@@ -114,33 +100,33 @@ public class Reservation {
         }
         return false;
     }
-    
-    /**
-    Modifica a reserva 
-    @param newCheckInDate Nova data de check-in
-    @param newCheckOutDate Nova data de check-out
-    @param newNumberOfGuests Novo número de hóspedes
-    @return true se a reserva foi modificada com sucesso, false caso contrário
-    */
-    public boolean modify(LocalDate newCheckInDate, LocalDate newCheckOutDate, Integer newNumberOfGuests) {
-        if (this.status == ReservationStatus.PENDING || this.status == ReservationStatus.CONFIRMED) {
-            this.checkInDate = newCheckInDate;
-            this.checkOutDate = newCheckOutDate;
-            this.numberOfGuests = newNumberOfGuests;
-            this.updatedAt = LocalDateTime.now();
-            
-            // Recalcula o preço total
-            calculateTotalPrice();
-            
-            return true;
+
+    public boolean modify(LocalDate checkInDate, LocalDate checkOutDate, Integer numberOfGuests) {
+        if (this.status != ReservationStatus.PENDING && this.status != ReservationStatus.CONFIRMED) {
+            return false;
         }
-        return false;
+
+        if (checkInDate == null || checkOutDate == null || numberOfGuests == null) {
+            return false;
+        }
+
+        if (checkInDate.isAfter(checkOutDate) || checkInDate.isBefore(LocalDate.now())) {
+            return false;
+        }
+
+        if (numberOfGuests <= 0 || numberOfGuests > this.room.getCapacity()) {
+            return false;
+        }
+
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.numberOfGuests = numberOfGuests;
+        this.updatedAt = LocalDateTime.now();
+        this.totalPrice = calculateTotalPrice();
+
+        return true;
     }
-    
-    /**
-    Confirma a reserva 
-    @return true se a reserva foi confirmada com sucesso, false caso contrário
-    */
+
     public boolean confirm() {
         if (this.status == ReservationStatus.PENDING) {
             this.status = ReservationStatus.CONFIRMED;

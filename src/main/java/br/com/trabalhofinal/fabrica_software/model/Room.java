@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import br.com.trabalhofinal.fabrica_software.enums.ReservationStatus;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
-/**
-Entidade que representa um quarto de hotel no sistema.
-*/
+
 @Entity
 @Table(name = "rooms")
 @Data
@@ -22,69 +21,71 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "hotel_id", nullable = false)
-    private Hotel hotel;
+    @Column(nullable = false)
+    private String number;
     
-    @Column(name = "room_number", nullable = false)
-    private String roomNumber;
+    @Column(nullable = false)
+    private String type;
     
-    @Column(name = "room_type", nullable = false)
-    private String roomType;
-    
+    @Column(nullable = false)
     private Integer capacity;
     
-    @Column(name = "price_per_night", nullable = false)
-    private Double pricePerNight;
+    @Column(name = "daily_rate", nullable = false)
+    private Double dailyRate;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
     
     @ElementCollection
     @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "amenity")
-    private List<String> amenities = new ArrayList<>();
+    private Set<String> amenities;
     
-    @ElementCollection
-    @CollectionTable(name = "room_images", joinColumns = @JoinColumn(name = "room_id"))
-    @Column(name = "image_url")
-    private List<String> images = new ArrayList<>();
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomAvailability> availabilityCalendar = new HashSet<>();
     
-    private Boolean available = true;
+    @Column(nullable = false)
+    private boolean active = true;
     
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private List<RoomAvailability> availabilityCalendar = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id", nullable = false)
+    private Hotel hotel;
     
     @OneToMany(mappedBy = "room")
-    private List<Reservation> reservations = new ArrayList<>();
-    
-    /**
-    Verifica a disponibilidade do quarto para um período específico
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return true se o quarto estiver disponível, false caso contrário
-    */
+    private Set<Reservation> reservations;
+
     public boolean checkAvailability(LocalDate startDate, LocalDate endDate) {
-        if (!available) {
+        if (!active) {
             return false;
         }
-        
-        // Verifica se há disponibilidade para cada dia do período
+
+        if (startDate == null || endDate == null || startDate.isAfter(endDate)) {
+            return false;
+        }
+
+        for (Reservation reservation : reservations) {
+            if (reservation.getStatus() != ReservationStatus.CANCELLED &&
+                !endDate.isBefore(reservation.getCheckInDate()) &&
+                !startDate.isAfter(reservation.getCheckOutDate())) {
+                return false;
+            }
+        }
+
         LocalDate currentDate = startDate;
         while (!currentDate.isAfter(endDate)) {
-            boolean availableOnDate = false;
-            
+            boolean dateAvailable = true;
             for (RoomAvailability availability : availabilityCalendar) {
-                if (availability.getDate().equals(currentDate) && availability.getIsAvailable()) {
-                    availableOnDate = true;
+                if (availability.getDate().equals(currentDate) && !availability.getIsAvailable()) {
+                    dateAvailable = false;
                     break;
                 }
             }
-            
-            if (!availableOnDate) {
+            if (!dateAvailable) {
                 return false;
             }
-            
             currentDate = currentDate.plusDays(1);
         }
-        
+
         return true;
     }
 }

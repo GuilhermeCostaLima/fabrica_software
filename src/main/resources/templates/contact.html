@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Contato')}">
+<body>
+    <main>
+        <section class="bg-primary text-light py-4 mb-5">
+            <div class="container">
+                <h1 class="display-4">Entre em Contato</h1>
+                <p class="lead">Estamos aqui para ajudar você com qualquer dúvida ou sugestão</p>
+            </div>
+        </section>
+
+        <section class="container mb-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title mb-4">Envie sua mensagem</h2>
+                            <form th:action="@{/contato}" method="post">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nome completo</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Telefone</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Assunto</label>
+                                    <select class="form-select" id="subject" name="subject" required>
+                                        <option value="">Selecione um assunto</option>
+                                        <option value="reserva">Dúvidas sobre reserva</option>
+                                        <option value="cancelamento">Cancelamento</option>
+                                        <option value="pagamento">Problemas com pagamento</option>
+                                        <option value="sugestao">Sugestões</option>
+                                        <option value="reclamacao">Reclamações</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Mensagem</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="privacy" name="privacy" required>
+                                    <label class="form-check-label" for="privacy">
+                                        Concordo com a <a href="#" class="text-decoration-none">Política de Privacidade</a>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="card-title">Informações de Contato</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                    <span>Av. Paulista, 1000 - Bela Vista<br>São Paulo - SP, 01310-100</span>
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-phone text-primary me-2"></i>
+                                    <span>0800 123 4567</span>
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-envelope text-primary me-2"></i>
+                                    <span>contato@123km.com.br</span>
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    <span>Segunda a Sexta: 8h às 20h<br>Sábado: 9h às 15h</span>
+                                </li>
+                            </ul>
+                            <hr>
+                            <h4>Redes Sociais</h4>
+                            <div class="d-flex gap-3 mt-3">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fab fa-facebook fa-2x text-primary"></i>
+                                </a>
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fab fa-instagram fa-2x text-primary"></i>
+                                </a>
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fab fa-twitter fa-2x text-primary"></i>
+                                </a>
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fab fa-linkedin fa-2x text-primary"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Perguntas Frequentes</h3>
+                            <div class="accordion" id="faqAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                            Como cancelar uma reserva?
+                                        </button>
+                                    </h2>
+                                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Para cancelar uma reserva, acesse sua conta, vá até "Minhas Reservas" e clique na opção "Cancelar" ao lado da reserva desejada. Lembre-se de verificar a política de cancelamento do hotel.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                            Como alterar datas da reserva?
+                                        </button>
+                                    </h2>
+                                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Para alterar as datas, entre em contato com nossa central de atendimento com pelo menos 48 horas de antecedência da data de check-in.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                            Qual o prazo para reembolso?
+                                        </button>
+                                    </h2>
+                                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            O prazo para reembolso é de até 30 dias úteis, dependendo da forma de pagamento utilizada e da política do hotel.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container-fluid p-0 mb-5">
+            <div class="ratio ratio-21x9" style="max-height: 400px;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0976951333757!2d-46.65390548502211!3d-23.563200784682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1623252345678!5m2!1spt-BR!2sbr" 
+                        allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

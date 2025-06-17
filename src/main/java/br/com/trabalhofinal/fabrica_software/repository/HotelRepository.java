@@ -1,59 +1,65 @@
 package br.com.trabalhofinal.fabrica_software.repository;
 
 import br.com.trabalhofinal.fabrica_software.model.Hotel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
-/**
-Repositório para operações de persistência da entidade Hotel.
-*/
+
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
-    
-    /**
-    Busca hotéis pelo nome contendo o texto especificado
-    @param name Texto a ser buscado no nome do hotel
-    @return Lista de hotéis encontrados
-    */
     List<Hotel> findByNameContainingIgnoreCase(String name);
-    
-    /**
-    Busca hotéis pela cidade
-    @param city Nome da cidade
-    @return Lista de hotéis encontrados
-    */
     @Query("SELECT h FROM Hotel h WHERE h.address.city = :city AND h.active = true")
     List<Hotel> findByCity(@Param("city") String city);
-    
-    /**
-    Busca hotéis pelo estado
-    @param state Nome do estado
-    @return Lista de hotéis encontrados
-    */
+
     @Query("SELECT h FROM Hotel h WHERE h.address.state = :state AND h.active = true")
     List<Hotel> findByState(@Param("state") String state);
-    
-    /**
-    Busca hotéis pela classificação (número de estrelas)
-    @param stars Número de estrelas
-    @return Lista de hotéis encontrados
-    */
     List<Hotel> findByStarsAndActiveTrue(Integer stars);
-    
-    /**
-    Busca hotéis com classificação maior ou igual à especificada
-    @param stars Número mínimo de estrelas
-    @return Lista de hotéis encontrados
-    */
     List<Hotel> findByStarsGreaterThanEqualAndActiveTrue(Integer stars);
-    
-    /**
-    Busca hotéis ativos
-    @return Lista de hotéis ativos
-    */
     List<Hotel> findByActiveTrue();
+    List<Hotel> findByFeaturedTrueAndActiveTrue();
+
+    @Query("SELECT h FROM Hotel h WHERE LOWER(h.address.city) = LOWER(:city) OR LOWER(h.address.state) = LOWER(:state)")
+    List<Hotel> findByCityIgnoreCaseOrStateIgnoreCase(@Param("city") String city, @Param("state") String state);
+
+    @Query("SELECT h FROM Hotel h WHERE " +
+           "h.active = true AND " +
+           "(:minStars IS NULL OR h.stars >= :minStars) AND " +
+           "(:city IS NULL OR h.address.city = :city) AND " +
+           "(:state IS NULL OR h.address.state = :state)")
+    Page<Hotel> findAllActiveWithFilters(
+        Pageable pageable,
+        @Param("minStars") Integer minStars,
+        @Param("city") String city,
+        @Param("state") String state
+    );
+
+    @Query("SELECT DISTINCT h FROM Hotel h " +
+           "LEFT JOIN h.rooms r " +
+           "WHERE h.active = true AND " +
+           "(LOWER(h.address.city) = LOWER(:destination) OR LOWER(h.address.state) = LOWER(:destination)) AND " +
+           "(:minStars IS NULL OR h.stars >= :minStars) AND " +
+           "(:roomType IS NULL OR r.type = :roomType) AND " +
+           "r.capacity >= :guests AND " +
+           "NOT EXISTS (" +
+           "    SELECT res FROM Reservation res " +
+           "    WHERE res.room = r AND " +
+           "    res.status = 'CONFIRMED' AND " +
+           "    ((res.checkInDate <= :checkOut AND res.checkOutDate >= :checkIn))" +
+           ")")
+    Page<Hotel> searchHotelsWithFilters(
+        @Param("destination") String destination,
+        @Param("checkIn") LocalDate checkIn,
+        @Param("checkOut") LocalDate checkOut,
+        @Param("guests") Integer guests,
+        @Param("roomType") String roomType,
+        @Param("minStars") Integer minStars,
+        Pageable pageable
+    );
 }

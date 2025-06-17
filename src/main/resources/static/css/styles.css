@@ -1,4 +1,4 @@
-/* Estilos globais para o site 123milhas */
+/* estilos globais */
 :root {
     --primary-color: #0066cc;
     --secondary-color: #ff9900;
@@ -44,7 +44,7 @@ a:hover {
     padding: 0 15px;
 }
 
-/* Header e navegação */
+/* header e navegação */
 .header {
     background-color: white;
     box-shadow: var(--shadow);
@@ -124,7 +124,7 @@ a:hover {
     color: white;
 }
 
-/* Hero section */
+/* hero */
 .hero {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero-bg.jpg');
     background-size: cover;
@@ -147,7 +147,7 @@ a:hover {
     margin-right: auto;
 }
 
-/* Search form */
+/* formulário de busca */
 .search-form {
     background-color: white;
     padding: 30px;

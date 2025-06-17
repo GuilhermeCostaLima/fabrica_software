@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Promoções')}">
+<body>
+    <main>
+        <section class="bg-primary text-light py-4 mb-5">
+            <div class="container">
+                <h1 class="display-4">Promoções Imperdíveis</h1>
+                <p class="lead">Aproveite as melhores ofertas em hotéis selecionados.</p>
+            </div>
+        </section>
+        <section class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div th:each="hotel : ${promotions}" class="col">
+                    <div class="card h-100">
+                        <!-- Hotel Image -->
+                        <div class="position-relative">
+                            <img th:if="${hotel.photos != null and !hotel.photos.isEmpty()}" 
+                                 th:src="${hotel.photos[0]}" class="card-img-top" alt="Hotel Image">
+                            <img th:unless="${hotel.photos != null and !hotel.photos.isEmpty()}" 
+                                 th:src="@{/images/hotel-placeholder.jpg}" class="card-img-top" alt="Hotel Image">
+                            <div class="position-absolute top-0 end-0 bg-danger text-white p-2 m-2 rounded">
+                                <i class="fas fa-tag"></i> Promoção
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${hotel.name}">Hotel Name</h5>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt"></i> 
+                                <span th:text="${hotel.address.city + ', ' + hotel.address.state}">Location</span>
+                            </p>
+
+                            <div class="mb-2">
+                                <i th:each="i : ${#numbers.sequence(1, hotel.stars)}" 
+                                   class="fas fa-star text-warning"></i>
+                            </div>
+
+                            <div class="mb-2" th:if="${hotel.averageRating != null}">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-star"></i> 
+                                    <span th:text="${#numbers.formatDecimal(hotel.averageRating, 1, 1)}">4.5</span>
+                                </span>
+                            </div>
+
+                            <p class="card-text" th:text="${#strings.abbreviate(hotel.description, 100)}">
+                                Hotel description...
+                            </p>
+
+                            <div class="mb-3" th:if="${hotel.amenities != null and !hotel.amenities.isEmpty()}">
+                                <small class="text-muted">
+                                    <i th:each="amenity, iterStat : ${hotel.amenities}" 
+                                       th:if="${iterStat.index < 3}"
+                                       th:class="${'fas ' + amenity.icon}"
+                                       th:title="${amenity.name}"
+                                       class="me-2"></i>
+                                    <span th:if="${hotel.amenities.size() > 3}" 
+                                          th:text="'+ ' + (${hotel.amenities.size() - 3} + ' mais')">
+                                        + 5 mais
+                                    </span>
+                                </small>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/hoteis/{id}(id=${hotel.id})}" class="btn btn-primary">
+                                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${promotions.isEmpty()}" class="text-center py-5">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h3>Nenhuma promoção disponível no momento</h3>
+                <p class="text-muted">Volte mais tarde para conferir novas ofertas!</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

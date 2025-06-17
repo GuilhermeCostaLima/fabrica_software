@@ -1,34 +1,22 @@
-// main.js - Script principal para o site 123milhas
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicialização de componentes
     initDatePickers();
     initSearchForm();
     initPaymentMethods();
     initRatingSystem();
-    
-    // Adicionar listeners para elementos interativos
+
     setupEventListeners();
 });
 
-// Inicializa os seletores de data
 function initDatePickers() {
-    // Implementação básica para os campos de data
     const checkInInput = document.getElementById('check-in');
     const checkOutInput = document.getElementById('check-out');
     
     if (checkInInput && checkOutInput) {
-        // Definir data mínima como hoje
         const today = new Date().toISOString().split('T')[0];
         checkInInput.min = today;
-        
-        // Quando o check-in muda, atualiza a data mínima do check-out
         checkInInput.addEventListener('change', function() {
             checkOutInput.min = checkInInput.value;
-            
-            // Se check-out for anterior ao novo check-in, ajusta
             if (checkOutInput.value && checkOutInput.value < checkInInput.value) {
-                // Define check-out como um dia após check-in
                 const nextDay = new Date(checkInInput.value);
                 nextDay.setDate(nextDay.getDate() + 1);
                 checkOutInput.value = nextDay.toISOString().split('T')[0];
@@ -37,13 +25,11 @@ function initDatePickers() {
     }
 }
 
-// Inicializa o formulário de busca
 function initSearchForm() {
     const searchForm = document.querySelector('.search-form form');
     
     if (searchForm) {
         searchForm.addEventListener('submit', function(e) {
-            // Validação básica do formulário
             const destination = document.getElementById('destination');
             const checkIn = document.getElementById('check-in');
             const checkOut = document.getElementById('check-out');
@@ -79,21 +65,17 @@ function initPaymentMethods() {
     if (paymentMethods.length > 0) {
         paymentMethods.forEach(method => {
             method.addEventListener('click', function() {
-                // Remove a classe active de todos os métodos
+
                 paymentMethods.forEach(m => m.classList.remove('active'));
-                
-                // Adiciona a classe active ao método clicado
+
                 this.classList.add('active');
-                
-                // Mostra/esconde formulários específicos baseado no método selecionado
+
                 const methodType = this.querySelector('span').textContent.toLowerCase();
-                
-                // Esconde todos os formulários específicos
+
                 document.querySelectorAll('.payment-specific-form').forEach(form => {
                     form.style.display = 'none';
                 });
-                
-                // Mostra o formulário específico para o método selecionado
+
                 const specificForm = document.querySelector(`.${methodType}-form`);
                 if (specificForm) {
                     specificForm.style.display = 'block';
@@ -103,7 +85,7 @@ function initPaymentMethods() {
     }
 }
 
-// Inicializa o sistema de avaliação
+
 function initRatingSystem() {
     const ratingSelect = document.querySelector('.rating-select');
     
@@ -112,15 +94,11 @@ function initRatingSystem() {
         
         stars.forEach((star, index) => {
             star.addEventListener('click', function() {
-                // Remove a classe active de todas as estrelas
                 stars.forEach(s => s.classList.remove('active'));
-                
-                // Adiciona a classe active às estrelas até a clicada
                 for (let i = 0; i <= index; i++) {
                     stars[i].classList.add('active');
                 }
                 
-                // Atualiza o valor do campo oculto
                 const ratingInput = document.getElementById('rating-value');
                 if (ratingInput) {
                     ratingInput.value = index + 1;
@@ -128,23 +106,19 @@ function initRatingSystem() {
             });
             
             star.addEventListener('mouseover', function() {
-                // Adiciona a classe hover às estrelas até a atual
                 for (let i = 0; i <= index; i++) {
                     stars[i].classList.add('hover');
                 }
             });
             
             star.addEventListener('mouseout', function() {
-                // Remove a classe hover de todas as estrelas
                 stars.forEach(s => s.classList.remove('hover'));
             });
         });
     }
 }
 
-// Configura listeners para elementos interativos
 function setupEventListeners() {
-    // Toggle para o menu mobile
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     
@@ -154,8 +128,7 @@ function setupEventListeners() {
             this.classList.toggle('active');
         });
     }
-    
-    // Botões de compartilhar e salvar
+
     const shareButton = document.querySelector('.share-save .btn:first-child');
     const saveButton = document.querySelector('.share-save .btn:last-child');
     
@@ -249,7 +222,6 @@ function setupEventListeners() {
     }
 }
 
-// Função para buscar CEP e preencher endereço
 function fetchAddressByCEP(cep) {
     const zipInput = document.getElementById('zip-code');
     
@@ -262,8 +234,7 @@ function fetchAddressByCEP(cep) {
                     document.getElementById('neighborhood').value = data.bairro;
                     document.getElementById('city').value = data.localidade;
                     document.getElementById('state').value = data.uf;
-                    
-                    // Foca no campo número
+
                     document.getElementById('number').focus();
                 }
             })
@@ -271,8 +242,6 @@ function fetchAddressByCEP(cep) {
     }
 }
 
-// Inicializa o mapa na página de detalhes do hotel
 function initMap() {
-    // Esta função seria implementada com uma biblioteca de mapas como Google Maps ou Leaflet
     console.log('Mapa inicializado');
 }

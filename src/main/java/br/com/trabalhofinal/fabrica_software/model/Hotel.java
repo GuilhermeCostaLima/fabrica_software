@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
-Entidade que representa um hotel no sistema
-*/
+
 @Entity
 @Table(name = "hotels")
 @Data
@@ -39,6 +37,11 @@ public class Hotel {
     private String email;
     
     @ElementCollection
+    @CollectionTable(name = "hotel_photos", joinColumns = @JoinColumn(name = "hotel_id"))
+    @Column(name = "photo_url")
+    private List<String> photos = new ArrayList<>();
+    
+    @ElementCollection
     @CollectionTable(name = "hotel_amenities", joinColumns = @JoinColumn(name = "hotel_id"))
     @Column(name = "amenity")
     private List<String> amenities = new ArrayList<>();
@@ -54,9 +57,8 @@ public class Hotel {
     
     private Boolean active = true;
     
-    /**
-    Calcula a média das avaliações do hotel
-    */
+    private Boolean featured = false;
+
     public void calculateAverageRating() {
         if (reviews == null || reviews.isEmpty()) {
             this.averageRating = 0.0;

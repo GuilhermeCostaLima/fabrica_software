@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Busca - 123milhas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <section class="container">
+        <div class="search-summary">
+            <h1>Hotéis em <span th:text="${searchParams.destination}">Destino</span></h1>
+            <p>
+                <span th:text="${#temporals.format(searchParams.checkIn, 'dd/MM/yyyy')}">Check-in</span>
+                até
+                <span th:text="${#temporals.format(searchParams.checkOut, 'dd/MM/yyyy')}">Check-out</span>
+                •
+                <span th:text="${searchParams.guests}">2</span> hóspedes
+                <span th:if="${searchParams.roomType}" th:text="'• Quarto ' + ${searchParams.roomType}">• Tipo de Quarto</span>
+            </p>
+        </div>
+
+        <div class="search-container">
+            <aside class="filters">
+                <h3>Filtros</h3>
+                <form th:action="@{/hoteis/busca}" method="GET" th:with="params=${searchParams}">
+                    <input type="hidden" name="destination" th:value="${params.destination}">
+                    <input type="hidden" name="check_in" th:value="${params.checkIn}">
+                    <input type="hidden" name="check_out" th:value="${params.checkOut}">
+                    <input type="hidden" name="guests" th:value="${params.guests}">
+                    
+                    <div class="filter-group">
+                        <h4>Classificação</h4>
+                        <div class="star-filter">
+                            <label><input type="radio" name="stars" value="5"> 5 estrelas</label>
+                            <label><input type="radio" name="stars" value="4"> 4 estrelas</label>
+                            <label><input type="radio" name="stars" value="3"> 3 estrelas</label>
+                            <label><input type="radio" name="stars" value="2"> 2 estrelas</label>
+                            <label><input type="radio" name="stars" value="1"> 1 estrela</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Tipo de Quarto</h4>
+                        <div class="room-type-filter">
+                            <label><input type="radio" name="room_type" value="standard"> Standard</label>
+                            <label><input type="radio" name="room_type" value="deluxe"> Deluxe</label>
+                            <label><input type="radio" name="room_type" value="suite"> Suite</label>
+                            <label><input type="radio" name="room_type" value="family"> Familiar</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn">Aplicar Filtros</button>
+                </form>
+            </aside>
+
+            <div class="search-results">
+                <div th:if="${#lists.isEmpty(hotels)}" class="no-results">
+                    <i class="fas fa-search fa-3x"></i>
+                    <h2>Nenhum hotel encontrado</h2>
+                    <p>Tente ajustar seus filtros ou datas de viagem.</p>
+                </div>
+
+                <div th:each="hotel : ${hotels}" class="hotel-card">
+                    <img th:src="${hotel.imageUrl}" th:alt="${hotel.name}">
+                    <div class="hotel-card-content">
+                        <h3 th:text="${hotel.name}">Nome do Hotel</h3>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span th:text="${hotel.city + ', ' + hotel.state}">Localização</span>
+                        </div>
+                        <div class="rating">
+                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                <i th:class="${i <= hotel.rating ? 'fas fa-star' : (i - hotel.rating <= 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')}"></i>
+                            </th:block>
+                            <span th:text="'(' + ${hotel.reviewCount} + ' avaliações)'"></span>
+                        </div>
+                        <div class="amenities">
+                            <span th:each="amenity : ${hotel.amenities}" class="amenity">
+                                <i th:class="${amenity.icon}"></i>
+                                <span th:text="${amenity.name}"></span>
+                            </span>
+                        </div>
+                        <div class="price">
+                            A partir de
+                            <strong>R$ <span th:text="${#numbers.formatDecimal(hotel.lowestPrice, 0, 'POINT', 0, 'COMMA')}">0</span></strong>
+                            <span>/ noite</span>
+                        </div>
+                        <a th:href="@{'/hoteis/' + ${hotel.id}}" class="btn">Ver Detalhes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html> 

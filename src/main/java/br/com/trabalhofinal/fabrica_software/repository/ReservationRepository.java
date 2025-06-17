@@ -10,68 +10,38 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-/**
-Repositório para operações de persistência da entidade Reservation
-*/
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    
-    /**
-    Busca reservas pelo usuário
-    @param userId ID do usuário
-    @return Lista de reservas encontradas
-    */
     List<Reservation> findByUserId(Long userId);
-    
-    /**
-    Busca reservas pelo quarto
-    @param roomId ID do quarto
-    @return Lista de reservas encontradas
-    */
     List<Reservation> findByRoomId(Long roomId);
-    
-    /**
-    Busca reservas pelo status
-    @param status Status da reserva
-    @return Lista de reservas encontradas
-    */
     List<Reservation> findByStatus(ReservationStatus status);
-    
-    /**
-    Busca reservas pelo período de check-in
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return Lista de reservas encontradas
-    */
     List<Reservation> findByCheckInDateBetween(LocalDate startDate, LocalDate endDate);
-    
-    /**
-    Busca reservas pelo período de check-out
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return Lista de reservas encontradas
-    */
     List<Reservation> findByCheckOutDateBetween(LocalDate startDate, LocalDate endDate);
-    
-    /**
-    Busca reservas que se sobrepõem a um período específico
-    @param roomId ID do quarto
-    @param startDate Data de início
-    @param endDate Data de fim
-    @return Lista de reservas encontradas
-    */
+
     @Query("SELECT r FROM Reservation r WHERE r.room.id = :roomId " +
            "AND r.status != 'CANCELLED' " +
            "AND ((r.checkInDate <= :endDate AND r.checkOutDate >= :startDate))")
     List<Reservation> findOverlappingReservations(@Param("roomId") Long roomId, 
                                                 @Param("startDate") LocalDate startDate, 
                                                 @Param("endDate") LocalDate endDate);
-    
-    /**
-    Busca reservas pelo usuário e status
-    @param userId ID do usuário
-    @param status Status da reserva
-    @return Lista de reservas encontradas
-    */
+
     List<Reservation> findByUserIdAndStatus(Long userId, ReservationStatus status);
+    long countByStatus(ReservationStatus status);
+
+    @Query("SELECT r FROM Reservation r ORDER BY r.createdAt DESC")
+    List<Reservation> findRecentReservations(int limit);
+    @Query("SELECT r FROM Reservation r WHERE r.user.id = :userId AND r.checkInDate >= CURRENT_DATE AND r.status = 'CONFIRMED' ORDER BY r.checkInDate ASC")
+    List<Reservation> findUpcomingByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT COUNT(r) FROM Reservation r WHERE r.room.id = :roomId " +
+           "AND r.status != 'CANCELLED' " +
+           "AND ((r.checkInDate <= :checkOut AND r.checkOutDate >= :checkIn))")
+    long countConflictingReservations(@Param("roomId") Long roomId,
+                                    @Param("checkIn") LocalDate checkIn,
+                                    @Param("checkOut") LocalDate checkOut);
+
+    @Query("SELECT r FROM Reservation r " +
+           "WHERE r.status = 'CONFIRMED' " +
+           "ORDER BY r.createdAt DESC")
+    List<Reservation> findRecentReservations(org.springframework.data.domain.Pageable pageable);
 }

@@ -1,294 +1,154 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busca de Hotéis - 123milhas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Busca de Hotéis')}">
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">123<span>milhas</span></div>
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/hoteis" class="active">Hotéis</a></li>
-                    <li><a href="/promocoes">Promoções</a></li>
-                    <li><a href="/sobre">Sobre</a></li>
-                    <li><a href="/contato">Contato</a></li>
-                </ul>
-                <div class="auth-links">
-                    <a href="/login" class="btn btn-outline">Login</a>
-                    <a href="/cadastro" class="btn">Cadastre-se</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <main>
+        <section class="bg-primary text-light py-4 mb-4">
+            <div class="container">
+                <h1 class="display-5" th:if="${destino != null}">Hotéis em <span th:text="${destino}">Rio de Janeiro</span></h1>
+                <h1 class="display-5" th:unless="${destino != null}">Todos os Hotéis</h1>
+                <p class="lead" th:if="${hotels != null}">
+                    Encontramos <span th:text="${hotels.totalElements}">24</span> hotéis disponíveis para sua busca
+                </p>
+            </div>
+        </section>
 
-    <!-- Search Results -->
-    <section class="container">
-        <div class="search-results-header">
-            <h1>Hotéis em Rio de Janeiro</h1>
-            <p>Encontramos 24 hotéis disponíveis para sua busca</p>
-        </div>
-
-        <!-- Filter Section -->
-        <div class="search-filters">
-            <div class="filter-group">
-                <h3>Filtrar por:</h3>
-                <div class="filter-options">
-                    <div class="filter-option">
-                        <label for="price-range">Faixa de Preço:</label>
-                        <select id="price-range" name="price_range">
-                            <option value="">Qualquer preço</option>
-                            <option value="0-200">Até R$ 200</option>
-                            <option value="200-400">R$ 200 - R$ 400</option>
-                            <option value="400-600">R$ 400 - R$ 600</option>
-                            <option value="600+">Acima de R$ 600</option>
-                        </select>
-                    </div>
-                    <div class="filter-option">
-                        <label for="stars">Classificação:</label>
-                        <select id="stars" name="stars">
-                            <option value="">Qualquer classificação</option>
-                            <option value="5">5 estrelas</option>
-                            <option value="4">4 estrelas ou mais</option>
-                            <option value="3">3 estrelas ou mais</option>
-                            <option value="2">2 estrelas ou mais</option>
-                        </select>
-                    </div>
-                    <div class="filter-option">
-                        <label for="amenities">Comodidades:</label>
-                        <select id="amenities" name="amenities">
-                            <option value="">Todas comodidades</option>
-                            <option value="wifi">Wi-Fi grátis</option>
-                            <option value="pool">Piscina</option>
-                            <option value="breakfast">Café da manhã</option>
-                            <option value="parking">Estacionamento</option>
-                        </select>
-                    </div>
+        <section class="container mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <form th:action="@{/hoteis/busca}" method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="destino" class="form-label">Destino</label>
+                            <input type="text" class="form-control" id="destino" name="destino" 
+                                   th:value="${destino}" placeholder="Cidade, estado ou hotel">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="checkIn" class="form-label">Check-in</label>
+                            <input type="date" class="form-control" id="checkIn" name="checkIn" th:value="${checkIn}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="checkOut" class="form-label">Check-out</label>
+                            <input type="date" class="form-control" id="checkOut" name="checkOut" th:value="${checkOut}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="hospedes" class="form-label">Hóspedes</label>
+                            <input type="number" class="form-control" id="hospedes" name="hospedes" 
+                                   min="1" th:value="${hospedes != null ? hospedes : 2}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="estrelas" class="form-label">Estrelas</label>
+                            <select class="form-select" id="estrelas" name="estrelas">
+                                <option value="">Qualquer</option>
+                                <option value="3" th:selected="${estrelas == 3}">3+ estrelas</option>
+                                <option value="4" th:selected="${estrelas == 4}">4+ estrelas</option>
+                                <option value="5" th:selected="${estrelas == 5}">5 estrelas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-10">
+                            <label for="sortBy" class="form-label">Ordenar por</label>
+                            <select class="form-select" id="sortBy" name="sortBy">
+                                <option value="name" th:selected="${sortBy == 'name'}">Nome</option>
+                                <option value="stars" th:selected="${sortBy == 'stars'}">Estrelas</option>
+                                <option value="averageRating" th:selected="${sortBy == 'averageRating'}">Avaliação</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="filter-group">
-                <h3>Ordenar por:</h3>
-                <select id="sort-by" name="sort_by">
-                    <option value="recommended">Recomendados</option>
-                    <option value="price-asc">Menor preço</option>
-                    <option value="price-desc">Maior preço</option>
-                    <option value="rating-desc">Melhor avaliação</option>
-                </select>
-            </div>
-        </div>
+        </section>
 
-        <!-- Hotel List -->
-        <div class="search-results">
-            <!-- Hotel Item 1 -->
-            <div class="search-result-item">
-                <div class="hotel-image">
-                    <img src="/images/hotel1.jpg" alt="Hotel Beira Mar">
-                </div>
-                <div class="hotel-info">
-                    <h2>Hotel Beira Mar</h2>
-                    <div class="location">
-                        <i class="fas fa-map-marker-alt"></i> Copacabana, Rio de Janeiro
+        <section class="container">
+            <div class="row">
+                <div th:if="${hotels != null && !hotels.empty}" class="col-12">
+                    <div th:each="hotel : ${hotels}" class="card mb-4">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img th:if="${hotel.photos != null && !hotel.photos.isEmpty()}" 
+                                     th:src="${hotel.photos[0]}" class="img-fluid rounded-start" alt="Hotel Image">
+                                <img th:unless="${hotel.photos != null && !hotel.photos.isEmpty()}" 
+                                     th:src="@{/images/hotel-placeholder.jpg}" class="img-fluid rounded-start" alt="Hotel Image">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${hotel.name}">nome do hotel</h5>
+                                    <p class="card-text">
+                                        <i class="fas fa-map-marker-alt"></i> 
+                                        <span th:text="${hotel.address.city + ', ' + hotel.address.state}">Location</span>
+                                    </p>
+                                    <div class="mb-2">
+                                        <i th:each="i : ${#numbers.sequence(1, hotel.stars)}" 
+                                           class="fas fa-star text-warning"></i>
+                                    </div>
+                                    <div class="mb-2" th:if="${hotel.averageRating != null}">
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-star"></i> 
+                                            <span th:text="${#numbers.formatDecimal(hotel.averageRating, 1, 1)}">4.5</span>
+                                        </span>
+                                        <small class="text-muted" th:if="${hotel.reviewCount != null}">
+                                            (<span th:text="${hotel.reviewCount}">245</span> avaliações)
+                                        </small>
+                                    </div>
+                                    <div class="mb-3" th:if="${hotel.amenities != null && !hotel.amenities.isEmpty()}">
+                                        <span th:each="amenity, iterStat : ${hotel.amenities}" 
+                                              th:if="${iterStat.index < 4}"
+                                              class="badge bg-light text-dark me-1 mb-1">
+                                            <i th:class="${'fas ' + amenity.icon}"></i>
+                                            <span th:text="${amenity.name}">Wi-Fi</span>
+                                        </span>
+                                        <span th:if="${hotel.amenities.size() > 4}" 
+                                              class="badge bg-light text-dark">
+                                            + <span th:text="${hotel.amenities.size() - 4}">3</span> mais
+                                        </span>
+                                    </div>
+                                    <p class="card-text" th:text="${#strings.abbreviate(hotel.description, 150)}">
+                                        descrição do hotel...
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex flex-column justify-content-center align-items-center p-3">
+                                <div class="text-center mb-3">
+                                    <span class="fs-4 fw-bold text-primary">R$ 350</span>
+                                    <div class="text-muted small">por noite</div>
+                                </div>
+                                <a th:href="@{/hoteis/{id}(id=${hotel.id})}" class="btn btn-primary w-100">
+                                    <i class="fas fa-info-circle"></i> Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>(245 avaliações)</span>
-                    </div>
-                    <div class="amenities">
-                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi grátis</span>
-                        <span class="amenity"><i class="fas fa-swimming-pool"></i> Piscina</span>
-                        <span class="amenity"><i class="fas fa-coffee"></i> Café da manhã</span>
-                        <span class="amenity"><i class="fas fa-parking"></i> Estacionamento</span>
-                    </div>
-                    <div class="description">
-                        Hotel com vista para o mar, localizado a apenas 100 metros da praia de Copacabana. Oferece quartos confortáveis, piscina na cobertura e café da manhã completo.
-                    </div>
-                </div>
-                <div class="hotel-price">
-                    <div class="price">R$ 350</div>
-                    <div class="per-night">por noite</div>
-                    <a href="/hoteis/1" class="btn">Ver Detalhes</a>
-                </div>
-            </div>
 
-            <!-- Hotel Item 2 -->
-            <div class="search-result-item">
-                <div class="hotel-image">
-                    <img src="/images/hotel4.jpg" alt="Hotel Central Rio">
+                    <nav th:if="${hotels.totalPages > 1}" aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                                <a class="page-link" th:href="@{/hoteis/busca(destino=${destino},checkIn=${checkIn},checkOut=${checkOut},hospedes=${hospedes},estrelas=${estrelas},sortBy=${sortBy},page=${currentPage - 1})}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li th:each="i : ${#numbers.sequence(0, hotels.totalPages - 1)}" 
+                                class="page-item" th:classappend="${currentPage == i ? 'active' : ''}">
+                                <a class="page-link" th:href="@{/hoteis/busca(destino=${destino},checkIn=${checkIn},checkOut=${checkOut},hospedes=${hospedes},estrelas=${estrelas},sortBy=${sortBy},page=${i})}" 
+                                   th:text="${i + 1}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage == hotels.totalPages - 1 ? 'disabled' : ''}">
+                                <a class="page-link" th:href="@{/hoteis/busca(destino=${destino},checkIn=${checkIn},checkOut=${checkOut},hospedes=${hospedes},estrelas=${estrelas},sortBy=${sortBy},page=${currentPage + 1})}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="hotel-info">
-                    <h2>Hotel Central Rio</h2>
-                    <div class="location">
-                        <i class="fas fa-map-marker-alt"></i> Centro, Rio de Janeiro
-                    </div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>(178 avaliações)</span>
-                    </div>
-                    <div class="amenities">
-                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi grátis</span>
-                        <span class="amenity"><i class="fas fa-coffee"></i> Café da manhã</span>
-                        <span class="amenity"><i class="fas fa-concierge-bell"></i> Recepção 24h</span>
-                    </div>
-                    <div class="description">
-                        Localizado no centro histórico do Rio de Janeiro, próximo aos principais pontos turísticos. Oferece quartos confortáveis e café da manhã incluso.
-                    </div>
-                </div>
-                <div class="hotel-price">
-                    <div class="price">R$ 220</div>
-                    <div class="per-night">por noite</div>
-                    <a href="/hoteis/4" class="btn">Ver Detalhes</a>
-                </div>
-            </div>
 
-            <!-- Hotel Item 3 -->
-            <div class="search-result-item">
-                <div class="hotel-image">
-                    <img src="/images/hotel5.jpg" alt="Ipanema Beach Resort">
-                </div>
-                <div class="hotel-info">
-                    <h2>Ipanema Beach Resort</h2>
-                    <div class="location">
-                        <i class="fas fa-map-marker-alt"></i> Ipanema, Rio de Janeiro
-                    </div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>(312 avaliações)</span>
-                    </div>
-                    <div class="amenities">
-                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi grátis</span>
-                        <span class="amenity"><i class="fas fa-swimming-pool"></i> Piscina</span>
-                        <span class="amenity"><i class="fas fa-coffee"></i> Café da manhã</span>
-                        <span class="amenity"><i class="fas fa-spa"></i> Spa</span>
-                        <span class="amenity"><i class="fas fa-parking"></i> Estacionamento</span>
-                    </div>
-                    <div class="description">
-                        Resort de luxo localizado em frente à praia de Ipanema. Oferece quartos espaçosos com vista para o mar, piscina infinita, spa completo e restaurante premiado.
-                    </div>
-                </div>
-                <div class="hotel-price">
-                    <div class="price">R$ 650</div>
-                    <div class="per-night">por noite</div>
-                    <a href="/hoteis/5" class="btn">Ver Detalhes</a>
+                <div th:if="${hotels == null || hotels.empty}" class="col-12 text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h3>Nenhum hotel encontrado</h3>
+                    <p class="text-muted">Tente ajustar seus filtros de busca ou escolher outro destino.</p>
                 </div>
             </div>
-
-            <!-- Hotel Item 4 -->
-            <div class="search-result-item">
-                <div class="hotel-image">
-                    <img src="/images/hotel6.jpg" alt="Pousada Santa Teresa">
-                </div>
-                <div class="hotel-info">
-                    <h2>Pousada Santa Teresa</h2>
-                    <div class="location">
-                        <i class="fas fa-map-marker-alt"></i> Santa Teresa, Rio de Janeiro
-                    </div>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <span>(156 avaliações)</span>
-                    </div>
-                    <div class="amenities">
-                        <span class="amenity"><i class="fas fa-wifi"></i> Wi-Fi grátis</span>
-                        <span class="amenity"><i class="fas fa-coffee"></i> Café da manhã</span>
-                        <span class="amenity"><i class="fas fa-utensils"></i> Restaurante</span>
-                    </div>
-                    <div class="description">
-                        Charmosa pousada localizada no bairro histórico de Santa Teresa. Oferece quartos decorados com móveis de época, café da manhã caseiro e vista panorâmica da cidade.
-                    </div>
-                </div>
-                <div class="hotel-price">
-                    <div class="price">R$ 380</div>
-                    <div class="per-night">por noite</div>
-                    <a href="/hoteis/6" class="btn">Ver Detalhes</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="pagination">
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#" class="next">Próximo <i class="fas fa-chevron-right"></i></a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>123milhas</h3>
-                    <ul class="footer-links">
-                        <li><a href="/sobre">Sobre nós</a></li>
-                        <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
-                        <li><a href="/parceiros">Seja um parceiro</a></li>
-                        <li><a href="/blog">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Para Viajantes</h3>
-                    <ul class="footer-links">
-                        <li><a href="/como-reservar">Como reservar</a></li>
-                        <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
-                        <li><a href="/politica-cancelamento">Política de cancelamento</a></li>
-                        <li><a href="/programa-fidelidade">Programa de fidelidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Destinos</h3>
-                    <ul class="footer-links">
-                        <li><a href="/hoteis/rio-de-janeiro">Rio de Janeiro</a></li>
-                        <li><a href="/hoteis/sao-paulo">São Paulo</a></li>
-                        <li><a href="/hoteis/gramado">Gramado</a></li>
-                        <li><a href="/hoteis/porto-de-galinhas">Porto de Galinhas</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contato</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-phone"></i> 0800 123 4567</li>
-                        <li><i class="fas fa-envelope"></i> contato@123milhas.com.br</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - São Paulo</li>
-                        <li>
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 123milhas - Todos os direitos reservados</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="/js/main.js"></script>
+        </section>
+    </main>
 </body>
 </html>

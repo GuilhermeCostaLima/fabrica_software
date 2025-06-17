@@ -1,4 +1,4 @@
-# Requisitos do Sistema de Reservas de Hotéis "123milhas"
+# Requisitos do Sistema de Reservas de Hotéis "123Km"
 
 ## Requisitos Funcionais
 

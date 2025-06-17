@@ -1,8 +1,8 @@
-# Documentação do Sistema de Reservas de Hotéis - 123milhas
+# Documentação do Sistema de Reservas de Hotéis - 123Km
 
 ## Visão Geral
 
-O sistema de reservas de hotéis 123milhas é uma aplicação web completa desenvolvida com Spring Boot, que permite aos usuários buscar, visualizar e reservar hotéis. O sistema inclui funcionalidades para gerenciamento de hotéis, quartos, reservas, pagamentos e avaliações, além de um painel administrativo para gerenciamento completo da plataforma.
+O sistema de reservas de hotéis 123Km é uma aplicação web completa desenvolvida com Spring Boot, que permite aos usuários buscar, visualizar e reservar hotéis. O sistema inclui funcionalidades para gerenciamento de hotéis, quartos, reservas, pagamentos e avaliações, além de um painel administrativo para gerenciamento completo da plataforma.
 
 ## Arquitetura do Sistema
 
@@ -142,8 +142,8 @@ O sistema é composto pelas seguintes entidades principais:
 O sistema utiliza PostgreSQL como banco de dados relacional. As configurações de conexão estão no arquivo `application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/123milhas
-spring.datasource.username=postgres
+spring.datasource.url=jdbc:postgresql://localhost:5432/123km
+spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect

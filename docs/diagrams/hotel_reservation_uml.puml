@@ -1,7 +1,7 @@
 @startuml
 !theme plain
 
-' Entidades principais do sistema de reservas de hotéis 123milhas
+' Entidades principais do sistema de reservas de hotéis 123Km
 
 class User {
   -Long id
