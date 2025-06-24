@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle image loading errors
     document.querySelectorAll('img').forEach(img => {
         img.addEventListener('error', function() {
-            this.src = '/images/placeholder.jpg';
+            this.src = '/images/semImagem.png';
         });
     });
 

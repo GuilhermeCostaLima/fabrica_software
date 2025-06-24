@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Página Inicial')}">
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Página Inicial')}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
     <main>
         <section class="hero bg-dark text-light py-5 mb-5">
@@ -63,7 +64,7 @@
                         <img th:if="${hotel.photos != null and !hotel.photos.isEmpty()}" 
                              th:src="${hotel.photos[0]}" class="card-img-top" alt="Hotel Image">
                         <img th:unless="${hotel.photos != null and !hotel.photos.isEmpty()}" 
-                             th:src="@{/images/hotel-placeholder.jpg}" class="card-img-top" alt="Hotel Image">
+                             th:src="@{/images/semImagem.png}" class="card-img-top" alt="Hotel Image">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${hotel.name}">Hotel Name</h5>
                             <p class="card-text">
@@ -87,7 +88,12 @@
             <div class="row row-cols-1 row-cols-md-4 g-4">
                 <div th:each="destination : ${popularDestinations}" class="col">
                     <div class="card h-100">
-                        <img th:src="${destination.imageUrl}" class="card-img-top" th:alt="${destination.name}">
+                        <img th:if="${destination.imageUrl != null and !#strings.isEmpty(destination.imageUrl)}"
+                             th:src="${destination.imageUrl}" class="card-img-top" th:alt="${destination.name}">
+
+                        <img th:unless="${destination.imageUrl != null and !#strings.isEmpty(destination.imageUrl)}"
+                             th:src="@{/images/semImagem.png}" class="card-img-top" th:alt="${destination.name}">
+
                         <div class="card-body">
                             <h5 class="card-title" th:text="${destination.name}">Destination Name</h5>
                             <p class="card-text" th:text="${destination.description}">Description</p>

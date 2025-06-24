@@ -1,158 +1,169 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Detalhes do Hotel')}">
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Detalhes do Hotel')}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
-    <main>
-        <section class="container py-4">
-            <div class="row">
-                <div class="col-lg-8 mb-4">
-                    <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner rounded">
-                            <div th:if="${hotel.photos != null && !hotel.photos.isEmpty()}" 
-                                 th:each="photo, iterStat : ${hotel.photos}" 
-                                 th:class="${'carousel-item' + (iterStat.first ? ' active' : '')}">
-                                <img th:src="${photo}" class="d-block w-100" alt="Hotel Image">
-                            </div>
-                            <div th:if="${hotel.photos == null || hotel.photos.isEmpty()}" class="carousel-item active">
-                                <img th:src="@{/images/hotel-placeholder.jpg}" class="d-block w-100" alt="Hotel Image">
-                            </div>
+<main>
+    <section class="container py-4">
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner rounded">
+                        <div th:if="${hotel.photos != null && !hotel.photos.isEmpty()}"
+                             th:each="photo, iterStat : ${hotel.photos}"
+                             th:class="${'carousel-item' + (iterStat.first ? ' active' : '')}">
+                            <img class="d-block w-100 skeleton-img"
+                                 th:src="${photo}"
+                                 alt="Hotel Image"
+                                 onload="this.classList.remove('skeleton-img')"
+                                 onerror="this.classList.remove('skeleton-img'); this.src='/images/hotel-semImagem.png';" />
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Anterior</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Próximo</span>
-                        </button>
+                        <div th:if="${hotel.photos == null || hotel.photos.isEmpty()}" class="carousel-item active">
+                            <img class="d-block w-100 skeleton-img"
+                                 th:src="@{/images/semImagem.png}"
+                                 alt="Hotel Image"
+                                 onload="this.classList.remove('skeleton-img')" />
+                        </div>
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Próximo</span>
+                    </button>
                 </div>
+            </div>
 
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h1 class="card-title h3" th:text="${hotel.name}">Hotel Name</h1>
-                            <div class="mb-2">
-                                <i th:each="i : ${#numbers.sequence(1, hotel.stars)}" 
-                                   class="fas fa-star text-warning"></i>
-                            </div>
-                            <p class="card-text">
-                                <i class="fas fa-map-marker-alt text-primary"></i> 
-                                <span th:text="${hotel.address.street + ', ' + hotel.address.number}">Rua Exemplo, 123</span><br>
-                                <span th:text="${hotel.address.city + ', ' + hotel.address.state}">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h1 class="card-title h3" th:text="${hotel.name}">Hotel Name</h1>
+                        <div class="mb-2">
+                            <i th:each="i : ${#numbers.sequence(1, hotel.stars)}"
+                               class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt text-primary"></i>
+                            <span th:text="${hotel.address.street + ', ' + hotel.address.number}">Rua Exemplo, 123</span><br>
+                            <span th:text="${hotel.address.city + ', ' + hotel.address.state}">
                                     Cidade, Estado
                                 </span>
-                            </p>
-                            <div class="mb-3" th:if="${hotel.averageRating != null}">
+                        </p>
+                        <div class="mb-3" th:if="${hotel.averageRating != null}">
                                 <span class="badge bg-success">
-                                    <i class="fas fa-star"></i> 
+                                    <i class="fas fa-star"></i>
                                     <span th:text="${#numbers.formatDecimal(hotel.averageRating, 1, 1)}">4.5</span>
                                 </span>
-                                <small class="text-muted" th:if="${!hotel.reviews.isEmpty()}">
-                                    (<span th:text="${hotel.reviews.size()}">245</span> avaliações)
-                                </small>
-                            </div>
-                            <hr>
-                            <div class="d-grid gap-2">
-                                <a href="#rooms" class="btn btn-primary">
-                                    <i class="fas fa-bed"></i> Ver Quartos Disponíveis
-                                </a>
-                                <a href="#map" class="btn btn-outline-secondary">
-                                    <i class="fas fa-map-marked-alt"></i> Ver no Mapa
-                                </a>
-                            </div>
+                            <small class="text-muted" th:if="${!hotel.reviews.isEmpty()}">
+                                (<span th:text="${hotel.reviews.size()}">245</span> avaliações)
+                            </small>
+                        </div>
+                        <hr>
+                        <div class="d-grid gap-2">
+                            <a href="#rooms" class="btn btn-primary">
+                                <i class="fas fa-bed"></i> Ver Quartos Disponíveis
+                            </a>
+                            <a href="#map" class="btn btn-outline-secondary">
+                                <i class="fas fa-map-marked-alt"></i> Ver no Mapa
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-title h4">Sobre o Hotel</h2>
-                            <p class="card-text" th:text="${hotel.description}">
-                                Hotel description...
-                            </p>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title h4">Sobre o Hotel</h2>
+                        <p class="card-text" th:text="${hotel.description}">
+                            Hotel description...
+                        </p>
 
-                            <h3 class="h5 mt-4">Comodidades</h3>
-                            <div class="row row-cols-2 row-cols-md-4 g-3" th:if="${hotel.amenities != null && !hotel.amenities.isEmpty()}">
-                                <div th:each="amenity : ${hotel.amenities}" class="col">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-check text-primary me-2"></i>
-                                        <span th:text="${amenity}">Amenity</span>
-                                    </div>
+                        <h3 class="h5 mt-4">Comodidades</h3>
+                        <div class="row row-cols-2 row-cols-md-4 g-3" th:if="${hotel.amenities != null && !hotel.amenities.isEmpty()}">
+                            <div th:each="amenity : ${hotel.amenities}" class="col">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check text-primary me-2"></i>
+                                    <span th:text="${amenity}">Amenity</span>
                                 </div>
                             </div>
-                            <p th:unless="${hotel.amenities != null && !hotel.amenities.isEmpty()}" class="text-muted">
-                                Informações sobre comodidades não disponíveis.
-                            </p>
                         </div>
+                        <p th:unless="${hotel.amenities != null && !hotel.amenities.isEmpty()}" class="text-muted">
+                            Informações sobre comodidades não disponíveis.
+                        </p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="rooms" class="row mb-4">
-                <div class="col-12">
-                    <h2 class="mb-3">Quartos Disponíveis</h2>
+        <div id="rooms" class="row mb-4">
+            <div class="col-12">
+                <h2 class="mb-3">Quartos Disponíveis</h2>
 
-                    <div th:each="room : ${hotel.rooms}" class="card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img th:src="@{/images/room-placeholder.jpg}" class="img-fluid rounded-start" alt="Room Image">
-                            </div>
-                            <div class="col-md-5">
-                                <div class="card-body">
-                                    <h3 class="card-title h5" th:text="${room.type}">Tipo do Quarto</h3>
-                                    <p class="card-text">
-                                        <i class="fas fa-user"></i> 
-                                        <span th:text="${room.capacity + ' pessoas'}">2 pessoas</span>
-                                    </p>
-                                    <div class="mb-3" th:if="${room.amenities != null && !room.amenities.isEmpty()}">
-                                        <span th:each="amenity : ${room.amenities}" 
-                                              class="badge bg-light text-dark me-1" 
+                <div th:each="room : ${hotel.rooms}" class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img class="img-fluid rounded-start skeleton-img"
+                                 th:src="@{/images/room-placeholder.jpg}"
+                                 alt="Room Image"
+                                 onload="this.classList.remove('skeleton-img')" />
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card-body">
+                                <h3 class="card-title h5" th:text="${room.type}">Tipo do Quarto</h3>
+                                <p class="card-text">
+                                    <i class="fas fa-user"></i>
+                                    <span th:text="${room.capacity + ' pessoas'}">2 pessoas</span>
+                                </p>
+                                <div class="mb-3" th:if="${room.amenities != null && !room.amenities.isEmpty()}">
+                                        <span th:each="amenity : ${room.amenities}"
+                                              class="badge bg-light text-dark me-1"
                                               th:text="${amenity}">Amenidade</span>
-                                    </div>
-                                    <p class="card-text" th:text="${room.description}">
-                                        Descrição do quarto...
-                                    </p>
                                 </div>
-                            </div>
-                            <div class="col-md-3 d-flex flex-column justify-content-center p-3">
-                                <div class="text-center mb-3">
-                                    <span class="fs-4 fw-bold text-primary" th:text="${'R$ ' + room.dailyRate}">R$ 250</span>
-                                    <div class="text-muted small">por noite</div>
-                                </div>
-                                <a th:href="@{/reservas/novo(roomId=${room.id})}" class="btn btn-primary">Reservar</a>
+                                <p class="card-text" th:text="${room.description}">
+                                    Descrição do quarto...
+                                </p>
                             </div>
                         </div>
-                    </div>
-
-                    <div th:if="${#lists.isEmpty(hotel.rooms)}" class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> Nenhum quarto disponível no momento.
+                        <div class="col-md-3 d-flex flex-column justify-content-center p-3">
+                            <div class="text-center mb-3">
+                                <span class="fs-4 fw-bold text-primary" th:text="${'R$ ' + room.dailyRate}">R$ 250</span>
+                                <div class="text-muted small">por noite</div>
+                            </div>
+                            <a th:href="@{/reservas/novo(roomId=${room.id})}" class="btn btn-primary">Reservar</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="map" class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-title h4">Localização</h2>
-                            <div class="ratio ratio-16x9">
-                                <iframe 
+                <div th:if="${#lists.isEmpty(hotel.rooms)}" class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Nenhum quarto disponível no momento.
+                </div>
+            </div>
+        </div>
+
+        <div id="map" class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title h4">Localização</h2>
+                        <div class="ratio ratio-16x9">
+                            <iframe
                                     th:src="@{'https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=' + ${hotel.address.street + ',' + hotel.address.number + ',' + hotel.address.city + ',' + hotel.address.state}}"
-                                    width="100%" 
-                                    height="450" 
-                                    style="border:0;" 
-                                    allowfullscreen="" 
+                                    width="100%"
+                                    height="450"
+                                    style="border:0;"
+                                    allowfullscreen=""
                                     loading="lazy">
-                                </iframe>
-                            </div>
+                            </iframe>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 </body>
 </html>

@@ -1,3 +1,15 @@
+.skeleton-img {
+    background-color: #ddd;
+    animation: pulse 1.5s infinite;
+    min-height: 200px;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/hero-bg.jpg');
     background-size: cover;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Promoções')}">
+<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Promoções')}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
     <main>
         <section class="bg-primary text-light py-4 mb-5">
@@ -17,7 +18,7 @@
                             <img th:if="${hotel.photos != null and !hotel.photos.isEmpty()}" 
                                  th:src="${hotel.photos[0]}" class="card-img-top" alt="Hotel Image">
                             <img th:unless="${hotel.photos != null and !hotel.photos.isEmpty()}" 
-                                 th:src="@{/images/hotel-placeholder.jpg}" class="card-img-top" alt="Hotel Image">
+                                 th:src="@{/images/hotel-semImagem.png}" class="card-img-top" alt="Hotel Image">
                             <div class="position-absolute top-0 end-0 bg-danger text-white p-2 m-2 rounded">
                                 <i class="fas fa-tag"></i> Promoção
                             </div>
