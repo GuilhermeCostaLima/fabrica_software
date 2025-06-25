@@ -1,33 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - 123Km</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <header class="header">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">123<span>Km</span></div>
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/hoteis">Hotéis</a></li>
-                    <li><a href="/promocoes">Promoções</a></li>
-                    <li><a href="/sobre">Sobre</a></li>
-                    <li><a href="/contato">Contato</a></li>
-                </ul>
-                <div class="auth-buttons">
-                    <a href="/login" class="btn btn-outline">Entrar</a>
-                    <a href="/cadastro" class="btn">Cadastrar</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
+<html lang="pt-BR" th:replace="~{layout/base :: html(content=~{::main}, title='Cadastro - 123Km')}" xmlns:th="http://www.thymeleaf.org">
+<main>
     <section class="auth-section">
         <div class="container">
             <div class="auth-container">
@@ -104,57 +77,6 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>123Km</h3>
-                    <ul class="footer-links">
-                        <li><a href="/sobre">Sobre nós</a></li>
-                        <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
-                        <li><a href="/parceiros">Seja um parceiro</a></li>
-                        <li><a href="/blog">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Para Viajantes</h3>
-                    <ul class="footer-links">
-                        <li><a href="/como-reservar">Como reservar</a></li>
-                        <li><a href="/perguntas-frequentes">Perguntas frequentes</a></li>
-                        <li><a href="/politica-cancelamento">Política de cancelamento</a></li>
-                        <li><a href="/programa-fidelidade">Programa de fidelidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Destinos</h3>
-                    <ul class="footer-links">
-                        <li><a href="/hoteis/rio-de-janeiro">Rio de Janeiro</a></li>
-                        <li><a href="/hoteis/sao-paulo">São Paulo</a></li>
-                        <li><a href="/hoteis/gramado">Gramado</a></li>
-                        <li><a href="/hoteis/porto-de-galinhas">Porto de Galinhas</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contato</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-phone"></i> 0800 123 4567</li>
-                        <li><i class="fas fa-envelope"></i> contato@123km.com.br</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Paulista, 1000 - São Paulo</li>
-                        <li>
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 123Km - Todos os direitos reservados</p>
-            </div>
-        </div>
-    </footer>
-
     <script src="/js/main.js"></script>
-</body>
+</main>
 </html>

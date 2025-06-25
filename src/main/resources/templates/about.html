@@ -1,181 +1,202 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Sobre Nós')}">
-<body>
-    <main>
-        <section class="bg-primary text-light py-4 mb-5">
-            <div class="container">
-                <h1 class="display-4">Sobre a 123Km</h1>
-                <p class="lead">Conheça nossa história e missão</p>
+<html th:replace="~{layout/base :: html(content=~{::main}, title='Sobre Nós - 123Km')}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<main>
+    <section class="bg-primary text-light py-4 mb-5">
+        <div class="container">
+            <h1 class="display-4">Sobre a 123Km</h1>
+            <p class="lead">Conheça nossa história e missão</p>
+        </div>
+    </section>
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2>Nossa História</h2>
+                <p class="lead">Desde 2020, a 123Km tem se dedicado a transformar a maneira como as pessoas viajam pelo
+                    Brasil e pelo mundo.</p>
+
+                <p>Fundada por um grupo de entusiastas de viagens e profissionais de tecnologia, a 123Km nasceu com a
+                    missão de democratizar o acesso a hospedagens de qualidade, oferecendo preços competitivos e uma
+                    experiência de reserva simplificada.</p>
+
+                <p>Ao longo dos anos, expandimos nossa rede de parceiros e hoje contamos com mais de 10.000 hotéis
+                    cadastrados em nossa plataforma, atendendo desde viajantes a negócios até famílias em busca de
+                    férias inesquecíveis.</p>
+
+                <h3 class="mt-4">Nossa Missão</h3>
+                <p>Conectar viajantes a experiências de hospedagem excepcionais, com transparência, segurança e o melhor
+                    custo-benefício.</p>
+
+                <h3 class="mt-4">Nossos Valores</h3>
+                <ul>
+                    <li><strong>Transparência:</strong> Informações claras e precisas sobre todos os nossos serviços.
+                    </li>
+                    <li><strong>Excelência:</strong> Compromisso com a qualidade em cada etapa da jornada do cliente.
+                    </li>
+                    <li><strong>Inovação:</strong> Busca constante por soluções tecnológicas que melhorem a experiência
+                        do usuário.
+                    </li>
+                    <li><strong>Sustentabilidade:</strong> Promoção de práticas de turismo responsável e parcerias com
+                        hotéis comprometidos com o meio ambiente.
+                    </li>
+                    <li><strong>Diversidade:</strong> Respeito e valorização das diferenças em nossa equipe e entre
+                        nossos clientes.
+                    </li>
+                </ul>
             </div>
-        </section>
-        <section class="container mb-5">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body bg-light">
+                        <h4>Números que nos orgulham</h4>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                <i class="fas fa-hotel fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">+10.000</h5>
+                                <p class="mb-0">Hotéis parceiros</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                <i class="fas fa-map-marker-alt fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">+500</h5>
+                                <p class="mb-0">Destinos</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">+1 milhão</h5>
+                                <p class="mb-0">Clientes satisfeitos</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                <i class="fas fa-star fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">4.8/5</h5>
+                                <p class="mb-0">Avaliação média</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Nossa Equipe</h4>
+                        <p>Contamos com uma equipe diversificada de profissionais apaixonados por viagens e tecnologia,
+                            trabalhando juntos para oferecer a melhor experiência aos nossos clientes.</p>
+                        <a href="#" class="btn btn-outline-primary">Trabalhe Conosco</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-light py-5 mb-5">
+        <div class="container">
+            <h2 class="text-center mb-4">O que dizem nossos clientes</h2>
             <div class="row">
-                <div class="col-lg-8">
-                    <h2>Nossa História</h2>
-                    <p class="lead">Desde 2020, a 123Km tem se dedicado a transformar a maneira como as pessoas viajam pelo Brasil e pelo mundo.</p>
-                    
-                    <p>Fundada por um grupo de entusiastas de viagens e profissionais de tecnologia, a 123Km nasceu com a missão de democratizar o acesso a hospedagens de qualidade, oferecendo preços competitivos e uma experiência de reserva simplificada.</p>
-                    
-                    <p>Ao longo dos anos, expandimos nossa rede de parceiros e hoje contamos com mais de 10.000 hotéis cadastrados em nossa plataforma, atendendo desde viajantes a negócios até famílias em busca de férias inesquecíveis.</p>
-                    
-                    <h3 class="mt-4">Nossa Missão</h3>
-                    <p>Conectar viajantes a experiências de hospedagem excepcionais, com transparência, segurança e o melhor custo-benefício.</p>
-                    
-                    <h3 class="mt-4">Nossos Valores</h3>
-                    <ul>
-                        <li><strong>Transparência:</strong> Informações claras e precisas sobre todos os nossos serviços.</li>
-                        <li><strong>Excelência:</strong> Compromisso com a qualidade em cada etapa da jornada do cliente.</li>
-                        <li><strong>Inovação:</strong> Busca constante por soluções tecnológicas que melhorem a experiência do usuário.</li>
-                        <li><strong>Sustentabilidade:</strong> Promoção de práticas de turismo responsável e parcerias com hotéis comprometidos com o meio ambiente.</li>
-                        <li><strong>Diversidade:</strong> Respeito e valorização das diferenças em nossa equipe e entre nossos clientes.</li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-body bg-light">
-                            <h4>Números que nos orgulham</h4>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-primary text-white rounded-circle p-3 me-3">
-                                    <i class="fas fa-hotel fa-2x"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-0">+10.000</h5>
-                                    <p class="mb-0">Hotéis parceiros</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-primary text-white rounded-circle p-3 me-3">
-                                    <i class="fas fa-map-marker-alt fa-2x"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-0">+500</h5>
-                                    <p class="mb-0">Destinos</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="bg-primary text-white rounded-circle p-3 me-3">
-                                    <i class="fas fa-users fa-2x"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-0">+1 milhão</h5>
-                                    <p class="mb-0">Clientes satisfeitos</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary text-white rounded-circle p-3 me-3">
-                                    <i class="fas fa-star fa-2x"></i>
-                                </div>
-                                <div>
-                                    <h5 class="mb-0">4.8/5</h5>
-                                    <p class="mb-0">Avaliação média</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
                         <div class="card-body">
-                            <h4>Nossa Equipe</h4>
-                            <p>Contamos com uma equipe diversificada de profissionais apaixonados por viagens e tecnologia, trabalhando juntos para oferecer a melhor experiência aos nossos clientes.</p>
-                            <a href="#" class="btn btn-outline-primary">Trabalhe Conosco</a>
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"Excelente plataforma! Encontrei um hotel perfeito para minha viagem a
+                                negócios com um preço muito abaixo do que encontrei em outros sites."</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                                     style="width: 50px; height: 50px;">
+                                    <span class="fw-bold">RM</span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Roberto Mendes</h6>
+                                    <small class="text-muted">São Paulo, SP</small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="bg-light py-5 mb-5">
-            <div class="container">
-                <h2 class="text-center mb-4">O que dizem nossos clientes</h2>
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="card-text">"Viajei com minha família para Gramado e reservei pelo 123Km. O
+                                processo foi super fácil e o hotel era exatamente como mostrado nas fotos.
+                                Recomendo!"</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                                     style="width: 50px; height: 50px;">
+                                    <span class="fw-bold">CS</span>
                                 </div>
-                                <p class="card-text">"Excelente plataforma! Encontrei um hotel perfeito para minha viagem a negócios com um preço muito abaixo do que encontrei em outros sites."</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <span class="fw-bold">RM</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Roberto Mendes</h6>
-                                        <small class="text-muted">São Paulo, SP</small>
-                                    </div>
+                                <div>
+                                    <h6 class="mb-0">Carla Santos</h6>
+                                    <small class="text-muted">Belo Horizonte, MG</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                </div>
-                                <p class="card-text">"Viajei com minha família para Gramado e reservei pelo 123Km. O processo foi super fácil e o hotel era exatamente como mostrado nas fotos. Recomendo!"</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <span class="fw-bold">CS</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Carla Santos</h6>
-                                        <small class="text-muted">Belo Horizonte, MG</small>
-                                    </div>
-                                </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="far fa-star text-warning"></i>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="far fa-star text-warning"></i>
+                            <p class="card-text">"O atendimento ao cliente é excepcional. Tive um problema com minha
+                                reserva e a equipe resolveu rapidamente. Isso faz toda a diferença!"</p>
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                                     style="width: 50px; height: 50px;">
+                                    <span class="fw-bold">PL</span>
                                 </div>
-                                <p class="card-text">"O atendimento ao cliente é excepcional. Tive um problema com minha reserva e a equipe resolveu rapidamente. Isso faz toda a diferença!"</p>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <span class="fw-bold">PL</span>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Pedro Lima</h6>
-                                        <small class="text-muted">Recife, PE</small>
-                                    </div>
+                                <div>
+                                    <h6 class="mb-0">Pedro Lima</h6>
+                                    <small class="text-muted">Recife, PE</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <section class="container mb-5">
-            <h2 class="text-center mb-4">Nossos Parceiros</h2>
-            <div class="row align-items-center text-center">
-                <div class="col-6 col-md-3 mb-4">
-                    <img src="https://via.placeholder.com/150x80?text=Hotel+Group" alt="Partner Logo" class="img-fluid">
-                </div>
-                <div class="col-6 col-md-3 mb-4">
-                    <img src="https://via.placeholder.com/150x80?text=Travel+Agency" alt="Partner Logo" class="img-fluid">
-                </div>
-                <div class="col-6 col-md-3 mb-4">
-                    <img src="https://via.placeholder.com/150x80?text=Airline" alt="Partner Logo" class="img-fluid">
-                </div>
-                <div class="col-6 col-md-3 mb-4">
-                    <img src="https://via.placeholder.com/150x80?text=Tourism+Board" alt="Partner Logo" class="img-fluid">
-                </div>
+        </div>
+    </section>
+    <section class="container mb-5">
+        <h2 class="text-center mb-4">Nossos Parceiros</h2>
+        <div class="row align-items-center text-center">
+            <div class="col-6 col-md-3 mb-4">
+                <img src="https://via.placeholder.com/150x80?text=Hotel+Group" alt="Partner Logo" class="img-fluid">
             </div>
-        </section>
-    </main>
-</body>
+            <div class="col-6 col-md-3 mb-4">
+                <img src="https://via.placeholder.com/150x80?text=Travel+Agency" alt="Partner Logo" class="img-fluid">
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <img src="https://via.placeholder.com/150x80?text=Airline" alt="Partner Logo" class="img-fluid">
+            </div>
+            <div class="col-6 col-md-3 mb-4">
+                <img src="https://via.placeholder.com/150x80?text=Tourism+Board" alt="Partner Logo" class="img-fluid">
+            </div>
+        </div>
+    </section>
+</main>
 </html>

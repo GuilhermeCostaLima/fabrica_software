@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Detalhes do Hotel')}"
       xmlns:th="http://www.w3.org/1999/xhtml">
-<body>
 <main>
     <section class="container py-4">
         <div class="row">
@@ -133,7 +132,19 @@
                                 <span class="fs-4 fw-bold text-primary" th:text="${'R$ ' + room.dailyRate}">R$ 250</span>
                                 <div class="text-muted small">por noite</div>
                             </div>
-                            <a th:href="@{/reservas/novo(roomId=${room.id})}" class="btn btn-primary">Reservar</a>
+                            <form th:action="@{/reservas/pagamento}" method="get">
+                                <input type="hidden" name="roomId" th:value="${room.id}" />
+                                <div class="mb-2">
+                                    <label for="checkIn" class="form-label">Check-in:</label>
+                                    <input type="date" id="checkIn" name="checkIn" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="checkOut" class="form-label">Check-out:</label>
+                                    <input type="date" id="checkOut" name="checkOut" class="form-control" required />
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Reservar</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -165,5 +176,4 @@
         </div>
     </section>
 </main>
-</body>
 </html>

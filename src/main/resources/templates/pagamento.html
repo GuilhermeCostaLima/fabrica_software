@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR" th:replace="~{layout/base :: html(content=~{::main}, title='123Km - Pagamento')}"
+      xmlns:th="http://www.thymeleaf.org">
+<main>
+    <section class="container">
+        <div class="payment-form">
+            <h2>Resumo da Reserva</h2>
+            <div class="reservation-summary">
+                <p><strong>Hotel:</strong>
+                    <span th:if="${reservation.room != null and reservation.room.hotel != null}"
+                          th:text="${reservation.room.hotel.name}">Hotel</span>
+                </p>
+                <p><strong>Quarto:</strong>
+                    <span th:if="${reservation.room != null}"
+                          th:text="${reservation.room.type}">Tipo</span>
+                </p>
+                <p><strong>Check-in:</strong>
+                    <span th:text="${#temporals.format(reservation.checkInDate, 'dd/MM/yyyy')}">15/06/2025</span>
+                </p>
+                <p><strong>Check-out:</strong>
+                    <span th:text="${#temporals.format(reservation.checkOutDate, 'dd/MM/yyyy')}">18/06/2025</span>
+                </p>
+                <p><strong>Noites:</strong>
+                    <span th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(reservation.checkInDate, reservation.checkOutDate)}">3</span>
+                </p>
+                <p><strong>Total:</strong>
+                    <span th:text="${#numbers.formatCurrency(reservation.totalPrice)}">R$ 0,00</span>
+                </p>
+            </div>
+
+            <h2 class="mt-4">Pagamento</h2>
+            <form th:action="@{/reservas/aprovado}" method="post">
+                <input type="hidden" name="reservationId" th:value="${reservation.id}"/>
+                <input type="hidden" name="roomId" th:value="${reservation.room.id}"/>
+                <input type="hidden" name="checkIn" th:value="${reservation.checkInDate}"/>
+                <input type="hidden" name="checkOut" th:value="${reservation.checkOutDate}"/>
+
+                <div class="form-section">
+                    <h3>Escolha o método de pagamento</h3>
+                    <div class="payment-methods">
+                        <label>
+                            <input type="radio" name="paymentMethod" value="CREDIT_CARD" checked/>
+                            Cartão
+                        </label>
+                        <label>
+                            <input type="radio" name="paymentMethod" value="PIX"/>
+                            PIX
+                        </label>
+                        <label>
+                            <input type="radio" name="paymentMethod" value="BANK_TRANSFER"/>
+                            Transferência
+                        </label>
+                    </div>
+                </div>
+
+                <div id="cardFields" class="form-section">
+                    <h4>Detalhes do Cartão</h4>
+
+                    <div class="form-group">
+                        <label for="cardType">Tipo</label>
+                        <select name="cardType" id="cardType" required>
+                            <option value="CREDIT">Crédito</option>
+                            <option value="DEBIT">Débito</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardNumber">Número do Cartão</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="0000 0000 0000 0000"
+                               required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardName">Nome no Cartão</label>
+                        <input type="text" id="cardName" name="cardName" placeholder="Nome completo" required/>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiryDate">Validade</label>
+                            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pixInfo" class="form-section" style="display:none;">
+                    <h4>Pagamento por PIX</h4>
+                    <p>Use o QR Code abaixo para realizar o pagamento:</p>
+                    <img src="/images/pix-qrcode.png" alt="QR Code Pix" style="max-width: 200px;"/>
+                    <p>Ou copie a chave PIX: <strong>reservas@123km.com</strong></p>
+                </div>
+
+                <div class="form-group checkbox mt-3">
+                    <input type="checkbox" id="terms" name="terms" required/>
+                    <label for="terms">Confirmo que autorizo a cobrança.</label>
+                </div>
+
+                <div class="payment-actions">
+                    <button type="submit" class="btn btn-secondary">Finalizar Pagamento</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</main>
+<script>
+    function togglePaymentFields() {
+        const selected = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const cardFields = document.getElementById('cardFields');
+        const pixInfo = document.getElementById('pixInfo');
+
+        if (selected === 'CREDIT_CARD') {
+            cardFields.style.display = 'block';
+            pixInfo.style.display = 'none';
+        } else if (selected === 'PIX') {
+            cardFields.style.display = 'none';
+            pixInfo.style.display = 'block';
+        } else {
+            cardFields.style.display = 'none';
+            pixInfo.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const radios = document.querySelectorAll('input[name="paymentMethod"]');
+        radios.forEach(r => r.addEventListener('change', togglePaymentFields));
+        togglePaymentFields(); // inicializa
+    });
+</script>
+</html>
