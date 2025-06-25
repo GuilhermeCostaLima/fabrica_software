@@ -33,12 +33,6 @@ public class HotelController {
     @GetMapping
     public String listHotels(Model model, HttpSession session) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("\n=== Debug Sessão em /hoteis ===");
-        System.out.println("Auth: " + auth);
-        System.out.println("Auth Principal: " + auth.getPrincipal());
-        System.out.println("Auth Authorities: " + auth.getAuthorities());
-        System.out.println("Usuário na sessão: " + session.getAttribute("loggedUser"));
-        System.out.println("=== Fim Debug Sessão ===\n");
 
         if (auth != null && auth.isAuthenticated() && session.getAttribute("loggedUser") == null) {
             if (auth.getPrincipal() instanceof CustomUserDetails) {
@@ -49,7 +43,6 @@ public class HotelController {
             }
         }
 
-        // lembrete: adicionar para listar hoteis
         return "hotels";
     }
 

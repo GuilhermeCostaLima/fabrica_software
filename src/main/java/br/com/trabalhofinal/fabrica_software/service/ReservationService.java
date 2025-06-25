@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,35 +54,57 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation create(Long userId, Long roomId, LocalDate checkInDate, LocalDate checkOutDate, Integer numberOfGuests) {
+    public Reservation prepareReservation(Long userId, Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com ID: " + userId));
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + roomId));
-        if (!room.checkAvailability(checkInDate, checkOutDate)) {
-            throw new IllegalArgumentException("Quarto não disponível para o período selecionado");
-        }
-        List<Reservation> overlappingReservations = reservationRepository.findOverlappingReservations(
-                roomId, checkInDate, checkOutDate);
-        if (!overlappingReservations.isEmpty()) {
-            throw new IllegalArgumentException("Já existe uma reserva para este quarto no período selecionado");
-        }
+
+        // Removido o checkAvailability temporariamente
 
         Reservation reservation = new Reservation();
         reservation.setUser(user);
         reservation.setRoom(room);
         reservation.setCheckInDate(checkInDate);
         reservation.setCheckOutDate(checkOutDate);
-        reservation.setNumberOfGuests(numberOfGuests);
+        reservation.setNumberOfGuests(1);
         reservation.setStatus(ReservationStatus.PENDING);
         reservation.setCreatedAt(LocalDateTime.now());
         reservation.setUpdatedAt(LocalDateTime.now());
+
+        Double totalPrice = reservation.calculateTotalPrice();
+        reservation.setTotalPrice(totalPrice);
+
+        return reservation; // Apenas retorna, ainda não salva
+    }
+
+    @Transactional
+    public Reservation createAndSaveReservation(Long userId, Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com ID: " + userId));
+
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Quarto não encontrado com ID: " + roomId));
+
+        // Não checa disponibilidade neste fluxo fictício
+
+        Reservation reservation = new Reservation();
+        reservation.setUser(user);
+        reservation.setRoom(room);
+        reservation.setCheckInDate(checkInDate);
+        reservation.setCheckOutDate(checkOutDate);
+        reservation.setNumberOfGuests(1); // ainda fixo
+        reservation.setStatus(ReservationStatus.PENDING);
+        reservation.setCreatedAt(LocalDateTime.now());
+        reservation.setUpdatedAt(LocalDateTime.now());
+
         Double totalPrice = reservation.calculateTotalPrice();
         reservation.setTotalPrice(totalPrice);
 
         return reservationRepository.save(reservation);
     }
+
 
     @Transactional
     public Reservation confirm(Long id) {
