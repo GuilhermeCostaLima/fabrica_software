@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/base :: html(content=~{::main}, title=${hotel.id != null} ? 'Editar Hotel' : 'Novo Hotel')}"
+      xmlns:th="http://www.thymeleaf.org">
+
+<main class="container mt-4">
+    <h1 class="mb-4" th:text="${hotel.id != null} ? 'Editar Hotel' : 'Novo Hotel'">Título</h1>
+
+    <form th:action="${hotel.id != null} ? @{'/admin/hoteis/editar/' + ${hotel.id}} : @{/admin/hoteis/salvar}"
+          th:object="${hotel}" method="post">
+
+    <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Descrição</label>
+            <textarea id="description" th:field="*{description}" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="phoneNumber" class="form-label">Telefone</label>
+                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" id="email" th:field="*{email}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="stars" class="form-label">Estrelas</label>
+            <input type="number" id="stars" th:field="*{stars}" class="form-control" min="1" max="5" required />
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="street" class="form-label">Rua</label>
+                <input type="text" id="street" th:field="*{address.street}" class="form-control" />
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="number" class="form-label">Número</label>
+                <input type="text" id="number" th:field="*{address.number}" class="form-control" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="neighborhood" class="form-label">Bairro</label>
+                <input type="text" id="neighborhood" th:field="*{address.neighborhood}" class="form-control" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="complement" class="form-label">Complemento</label>
+                <input type="text" id="complement" th:field="*{address.complement}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="city" class="form-label">Cidade</label>
+                <input type="text" id="city" th:field="*{address.city}" class="form-control" required />
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="state" class="form-label">Estado</label>
+                <input type="text" id="state" th:field="*{address.state}" class="form-control" required />
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="zipCode" class="form-label">CEP</label>
+                <input type="text" id="zipCode" th:field="*{address.zipCode}" class="form-control" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="country" class="form-label">País</label>
+                <input type="text" id="country" th:field="*{address.country}" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="amenities" class="form-label">Comodidades</label>
+            <textarea id="amenities" th:field="*{amenities}" class="form-control" rows="2"></textarea>
+        </div>
+
+        <input type="hidden" name="active" value="false"/>
+        <div class="form-check mb-3">
+            <input type="checkbox" id="active" th:field="*{active}" class="form-check-input"/>
+            <label for="active" class="form-check-label">Ativo</label>
+        </div>
+
+        <input type="hidden" name="featured" value="false"/>
+        <div class="form-check mb-3">
+            <input type="checkbox" id="featured" th:field="*{featured}" class="form-check-input"/>
+            <label for="featured" class="form-check-label">Destaque na página inicial</label>
+        </div>
+
+
+        <div class="text-end">
+            <a th:href="@{/admin/hoteis}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </form>
+</main>
+</html>
