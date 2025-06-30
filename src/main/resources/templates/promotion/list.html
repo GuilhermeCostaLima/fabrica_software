@@ -47,15 +47,15 @@
 
                         <div class="mb-3" th:if="${hotel.amenities != null and !hotel.amenities.isEmpty()}">
                             <small class="text-muted">
-                                <i th:each="amenity, iterStat : ${hotel.amenities}"
-                                   th:if="${iterStat.index < 3}"
-                                   th:class="${'fas ' + amenity.icon}"
-                                   th:title="${amenity.name}"
-                                   class="me-2"></i>
+        <span th:each="amenity, iterStat : ${hotel.amenities}"
+              th:if="${iterStat.index < 3}"
+              class="badge bg-light text-dark me-1"
+              th:text="${amenity}">Amenity</span>
+
                                 <span th:if="${hotel.amenities.size() > 3}"
-                                      th:text="'+ ' + (${hotel.amenities.size() - 3} + ' mais')">
-                                        + 5 mais
-                                    </span>
+                                      th:text="|+${hotel.amenities.size() - 3} mais|">
+            +3 mais
+        </span>
                             </small>
                         </div>
 
