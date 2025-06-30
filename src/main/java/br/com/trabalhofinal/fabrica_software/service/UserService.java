@@ -106,6 +106,18 @@ public class UserService {
         user.getRoles().add(role);
         return userRepository.save(user);
     }
+
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        delete(id); // usa seu método já existente com verificação
+    }
+
+
     public long countAll() {
         return userRepository.count();
     }

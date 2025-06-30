@@ -143,4 +143,18 @@ public class HotelService {
         return hotelRepository.searchHotelsWithFilters(
             destination, checkIn, checkOut, guests, roomType, minStars, pageable);
     }
+
+    @Transactional
+    public Hotel save(Hotel hotel) {
+        return hotelRepository.save(hotel);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        if (!hotelRepository.existsById(id)) {
+            throw new IllegalArgumentException("Hotel não encontrado com ID: " + id);
+        }
+        hotelRepository.deleteById(id);
+    }
+
 }
